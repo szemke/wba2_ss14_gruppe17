@@ -3,7 +3,7 @@ var url = require('url');
 var querystring = require('querystring');
 
 /*
-* HTML Template für Formular
+* HTML Template fuer Formular
 */
 var formularHTML =
 		'<html><head><title>Planeten</title></head>' +
@@ -36,7 +36,7 @@ planeten = [
 http.createServer(function (req, res) {
 
 	/*
-	* Prüfen ob die Seite ueber http://localhost:8124/planeten aufgerufen wurde. 
+	* Pruefen ob die Seite ueber http://localhost:8124/planeten aufgerufen wurde. 
 	*/
     var pfad = url.parse(req.url).pathname;
     if(pfad!='/planeten'){
