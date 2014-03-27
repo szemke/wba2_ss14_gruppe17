@@ -1,6 +1,7 @@
 var http = require('http');
 var url = require('url');
 var querystring = require('querystring');
+//var util = require('util');
 
 /*
 * HTML Template fuer Formular
@@ -59,6 +60,7 @@ http.createServer(function (req, res) {
 	* Tabelle ausgeben
 	*/
 	req.on('end', function () {
+		//console.log('Log: ' + util.inspect(planeten));
 		res.writeHead(200, {'Content-Type': 'text/html'});
 		res.write('<table border="1">');
 		res.write('<tr><th>Name</th><th>Durchmesser</th><th>Entfernung</th>');
