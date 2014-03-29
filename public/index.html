@@ -32,7 +32,7 @@ $(document).ready(function(){
 				formular.name.value = "";
 				formular.durchmesser.value = "";
 				formular.entfernung.value = "";
-			}).fail(function(){
+			}).fail(function(e){
 				alert(data.Name+' konnte nicht hinzugefuegt werden. ('+JSON.stringify(e)+')');
 			});
 		}else{

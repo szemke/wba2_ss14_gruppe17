@@ -25,21 +25,10 @@ app.configure(function(){
 	app.use(express.json());
 });
 
-app.use('/planeten', function(req, res){
-
-	/*
-	* Auf leeres Objekt pruefen. 
-	* Wenn Objekt nicht leer, zu planeten Array hinzufügen und auf Konsole ausgeben.
-	*/
-	var empfangen = JSON.stringify(req.body);
-	if(empfangen != "{}"){
-		planeten.push(req.body);
-		console.log("Objekt hinzugefuegt: " + empfangen);
-	 }
-	 
-	/*
-	* Tabelle ausgeben
-	*/
+/*
+* Bei GET auf /planeten Tabelle ausgeben
+*/
+app.get('/planeten', function(req, res){
 	res.writeHead(200, {'Content-Type': 'text/html'});
 	res.write('<table border="1">');
 	res.write('<tr><th>Name</th><th>Durchmesser</th><th>Entfernung</th>');
@@ -47,6 +36,16 @@ app.use('/planeten', function(req, res){
 			res.write("<tr><td>" + planeten[i].Name + "</td><td>" + planeten[i].Durchmesser + "</td><td>" + planeten[i].Entfernung + "</td></tr>");
 		}
 	res.write('</table>');
+	res.end();
+});
+	
+/*
+* Ankommenden POST auf /planeten zu planeten Array hinzufuegen und auf Konsole ausgeben
+*/
+app.post('/planeten', function(req, res){
+	var empfangen = JSON.stringify(req.body);
+	planeten.push(req.body);
+	console.log("Objekt hinzugefuegt: " + empfangen);
 	res.end();
 });
 
