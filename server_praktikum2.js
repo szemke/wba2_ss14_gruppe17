@@ -4,14 +4,14 @@ var express = require('express');
 * Json Array mit Objekten
 */
 planeten = [
-{ "Name":"Merkur" , "Durchmesser":"4879 km" , "Entfernung":"58 Mio km" }, 
-{ "Name":"Venus" , "Durchmesser":"12103 km" , "Entfernung":"108 Mio km"}, 
-{ "Name":"Erde" , "Durchmesser":"12734 km" , "Entfernung":"150 Mio km"},
-{ "Name":"Mars" , "Durchmesser":"6772 km" , "Entfernung":"228 Mio km" }, 
-{ "Name":"Jupiter" , "Durchmesser":"114632 km" , "Entfernung":"778 Mio km"}, 
-{ "Name":"Saturn" , "Durchmesser":"12734 km" , "Entfernung":"1433 Mio km"},
-{ "Name":"Uranus" , "Durchmesser":"50532 km" , "Entfernung":"2872 Mio km" }, 
-{ "Name":"Neptun" , "Durchmesser":"49105 km" , "Entfernung":"4495 Mio km"}
+{ "Name":"Merkur" , "Durchmesser":"4879" , "Entfernung":"58" }, 
+{ "Name":"Venus" , "Durchmesser":"12103" , "Entfernung":"108"}, 
+{ "Name":"Erde" , "Durchmesser":"12734" , "Entfernung":"150"},
+{ "Name":"Mars" , "Durchmesser":"6772" , "Entfernung":"228" }, 
+{ "Name":"Jupiter" , "Durchmesser":"114632" , "Entfernung":"778"}, 
+{ "Name":"Saturn" , "Durchmesser":"12734" , "Entfernung":"1433"},
+{ "Name":"Uranus" , "Durchmesser":"50532" , "Entfernung":"2872" }, 
+{ "Name":"Neptun" , "Durchmesser":"49105" , "Entfernung":"4495"}
 ]
 
 /*
@@ -33,7 +33,7 @@ app.get('/planeten', function(req, res){
 	res.write('<table border="1">');
 	res.write('<tr><th>Name</th><th>Durchmesser</th><th>Entfernung</th>');
 		 for (var i = 0; i < planeten.length; i++) {
-			res.write("<tr><td>" + planeten[i].Name + "</td><td>" + planeten[i].Durchmesser + "</td><td>" + planeten[i].Entfernung + "</td></tr>");
+			res.write("<tr><td>" + planeten[i].Name + "</td><td>" + planeten[i].Durchmesser + " km </td><td>" + planeten[i].Entfernung + " Mio km</td></tr>");
 		}
 	res.write('</table>');
 	res.end();
