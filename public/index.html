@@ -2,9 +2,49 @@
 <head>
 <title>Planeten</title>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-	$('#formular').submit(function(event) {
+<script type="text/javascript" src="/faye/client.js"></script>
+</head>
+<body>
+<!-- Formular anzeigen -->
+<form id="formular" method="post">
+<table>
+<tr><td>Planet:</td><td> <input id="name" type="text"></td></tr>
+<tr><td>Durchmesser:</td><td> <input id="durchmesser" type="text"></td></tr>
+<tr><td>Entfernung:</td><td> <input id="entfernung" type="text"></td></tr>
+</table>
+<input type="submit" value="Abschicken">
+</form>
+ <h1>Planeten</h1>
+    <table border="1" id="planetentabelle">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Durchmesser</th>
+            <th>Entfernung zur Sonne</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    </table>
+<script>
+var request = $.ajax({
+            type: 'GET',
+            url: 'http://localhost:3000/planeten',
+            contentType: 'application/json'
+        });
+        
+        request.done(function(planetsjson){
+            planetsjson.forEach(function(planets){
+                addTableRow(planets);
+            });
+        });
+        
+        request.fail(function(err){
+			alert("something is wrong");
+        });
+
+
+   $('#formular').submit(function(event) {
 		event.preventDefault(); //Default Methode aus Formular unterbinden
 		
 		/*
@@ -15,11 +55,11 @@ $(document).ready(function(){
 			/*
 			* POST value in data Objekt einfügen
 			*/
-			var data = {Name: $('#name').val(), Durchmesser: $('#durchmesser').val(), Entfernung: $('#entfernung').val()};
+			var data = {name: $('#name').val(), durchmesser: $('#durchmesser').val(), entfernung: $('#entfernung').val()};
 			
 			/*
 			* AJAX Post absenden vom Typ Jason Objekt
-			* Bei Erfolg: alert ausgeben und Formularfelder leeren
+			* Bei Erfolg: alert ausgeben, Formularfelder leeren und GET auf /planeten ausfuehren. Json empfangen und in Tabelle ausgeben
 			* Bei Misserfolg: alert ausgeben
 			*/
 			$.ajax({
@@ -28,31 +68,27 @@ $(document).ready(function(){
 				data: JSON.stringify(data),
 				contentType: 'application/json'
 			}).done(function(){
-				alert(data.Name+' wurde hinzugefuegt.');
+				alert(data.name+' wurde hinzugefuegt.');
 				formular.name.value = "";
 				formular.durchmesser.value = "";
 				formular.entfernung.value = "";
 			}).fail(function(e){
-				alert(data.Name+' konnte nicht hinzugefuegt werden. ('+JSON.stringify(e)+')');
+				alert(data.name+' konnte nicht hinzugefuegt werden. ('+JSON.stringify(e)+')');
 			});
 		}else{
 			alert(unescape("Bitte alle Felder ausf%FCllen")); //unescape: Umlaut uebersetzen
 		}
 	});
-});
+	
+	function addTableRow(planets){
+        var planetsTable = $('#planetentabelle');
+        planetsTable.find('tbody').first().append('<tr><td>'+planets.name+'</td><td>'+planets.durchmesser+' km</td><td>'+planets.entfernung+' Mio Km</td></tr>');
+    }
+    
+    var client = new Faye.Client('/faye');
+    var subscription = client.subscribe('/planeten', function(message){
+        addTableRow(message);
+    });
 </script>
-</head>
-<body>
-
-<!-- Formular anzeigen -->
-<form id="formular" method="post">
-<table>
-<tr><td>Planet:</td><td> <input id="name" type="text"></td></tr>
-<tr><td>Durchmesser:</td><td> <input id="durchmesser" type="text"></td></tr>
-<tr><td>Entfernung:</td><td> <input id="entfernung" type="text"></td></tr>
-</table>
-<input type="submit" value="Abschicken">
-</form>
-
 </body>
 </html>
