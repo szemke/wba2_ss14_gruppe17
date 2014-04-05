@@ -21,7 +21,7 @@ var bayeux = new faye.NodeAdapter({
     mount: '/faye',
     timeout: 45
 });
-
+bayeux.attach(server);
 var pubClient = bayeux.getClient();
 
 app.configure(function(){
@@ -51,6 +51,7 @@ app.post('/planeten', function(req, res){
 		
         //Namen des hinzugefuegten Planeten auf der Konsole ausgeben
         publication.then(function(){
+			//res.writeHead(200,"OK");
             console.log('gepusht: '+req.body.name);
         },
         function (error){
@@ -67,10 +68,10 @@ app.post('/planeten', function(req, res){
 		}
 	});
 });
-bayeux.attach(server);
+
 /*
 * Server an Port 3000 binden
 */
-var server = app.listen(3000, function() {
+server.listen(3000, function() {
     console.log('Listening on port 3000');
 });

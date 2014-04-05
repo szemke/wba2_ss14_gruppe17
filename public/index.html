@@ -27,6 +27,7 @@
     </tbody>
     </table>
 <script>
+$(document).ready(function(){
 var request = $.ajax({
             type: 'GET',
             url: 'http://localhost:3000/planeten',
@@ -42,7 +43,7 @@ var request = $.ajax({
         request.fail(function(err){
 			alert("something is wrong");
         });
-
+});
 
    $('#formular').submit(function(event) {
 		event.preventDefault(); //Default Methode aus Formular unterbinden
@@ -79,8 +80,7 @@ var request = $.ajax({
 			alert(unescape("Bitte alle Felder ausf%FCllen")); //unescape: Umlaut uebersetzen
 		}
 	});
-	
-	function addTableRow(planets){
+		function addTableRow(planets){
         var planetsTable = $('#planetentabelle');
         planetsTable.find('tbody').first().append('<tr><td>'+planets.name+'</td><td>'+planets.durchmesser+' km</td><td>'+planets.entfernung+' Mio Km</td></tr>');
     }
@@ -89,6 +89,7 @@ var request = $.ajax({
     var subscription = client.subscribe('/planeten', function(message){
         addTableRow(message);
     });
+
 </script>
 </body>
 </html>
