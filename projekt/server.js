@@ -24,18 +24,31 @@ app.use(function(err, req, res, next){
 	console.err(error.stack);
 	res.end(error.messages);
 });	
+app.use(express.cookieParser());
+app.post('/auth', function(req, res){
+	var empfangen = JSON.stringify(req.body);
+	console.log("User hinzugefuegt: " + empfangen);
+	res.writeHead(200, {'Content-Type': 'text/plain'});
+	res.end('erfolgreich');
+});
 app.post('/login', function(req, res){
 		//In Datenbank speichern
 		UserCollection.find({email:req.body.email}).toArray(function(err, result) {
 		if(result[0] != null){
 			console.log("USER: "+result[0].name+" try log in...");
 			if(req.body.pass == result[0].pass){
+				var jimData = {id:result[0]._id, name:result[0].name};
+				res.cookie('sessid', jimData);
 				console.log("login successfull");
 			}else{
+				res.writeHead(401, {'Content-Type': 'text/plain'});
 				console.log("Bad password");
+				res.end('Das eingegebene Passwort stimmt nicht mit der Email Adresse überein.');
 			}
 		}else{
+			res.writeHead(404, {'Content-Type': 'text/plain'});
 			console.log("User not found");
+			res.end('Die eingegebene Email Adresse wurde nicht gefunden.');
 		}
 		res.end();
 		});

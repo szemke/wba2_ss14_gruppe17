@@ -2,12 +2,32 @@
 <head>
 <title>Registrierung</title>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
+<script src="/js/jquery.cookies.2.2.0.min.js"></script>
 </head>
 <body>
 <ul>
 <li><a href="/adduser.html">Registrierung</a></li>
-<li><a href="/login.html">login</a></li>
+<li id="login"><a href="/login.html">login</a></li>
 </ul>
+<script>
+$('document').ready(function(){
+if($.cookies.get( 'sessid' ) != null){
+	
+	var data = $.cookies.get( 'sessid' ).substring(2);
+	
+			$.ajax({
+				type: 'POST',
+				url: '/auth',
+				data: data,
+				contentType: 'application/json'
+			}).done(function(e){
+				$('<li id="logout"><a href="/logout.html">logout</a></li>').replaceAll("#login");
+			}).fail(function(e){
+				alert('Anmeldung fehlgeschlagen: '+JSON.stringify(e.responseText));
+			});
+		}
+});
+
+</script>
 </body>
 </html>

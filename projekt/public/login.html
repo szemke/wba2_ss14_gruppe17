@@ -40,11 +40,11 @@
 				data: JSON.stringify(data),
 				contentType: 'application/json'
 			}).done(function(){
-				alert(data.name+' Anmeldung erfolgreich.');
 				formular.email.value = "";
 				formular.pass.value = "";
+				window.location = "/";
 			}).fail(function(e){
-				alert(data.name+' konnte nicht hinzugefuegt werden. ('+JSON.stringify(e)+')');
+				alert('Anmeldung fehlgeschlagen: '+JSON.stringify(e.responseText));
 			});
 		}else{
 			alert(unescape("Bitte alle Felder ausf%FCllen")); //unescape: Umlaut uebersetzen
