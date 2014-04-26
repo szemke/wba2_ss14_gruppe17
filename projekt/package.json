@@ -15,6 +15,7 @@
 	"faye": "*",
 	"mail": "*",
 	"formidable": "*",
+	"sendmail": "*",
 	"util": "*"
   }
 }
