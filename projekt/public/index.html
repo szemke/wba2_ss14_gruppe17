@@ -1,32 +1,69 @@
 <html>
 <head>
-<title>Registrierung</title>
+<title>Index</title>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="/js/jquery.cookies.2.2.0.min.js"></script>
+<script src="/js/function.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
 </head>
 <body>
-<ul>
-<li><a href="/adduser.html">Registrierung</a></li>
-<li id="login"><a href="/login.html">login</a></li>
-</ul>
+	<div id="wrapper">
+	</div>
 <script>
-$('document').ready(function(){
-if($.cookies.get( 'sessid' ) != null){
+var n = location.search;
+switch(n)
+{
+case '?adduser':
+	document.title = "Registrierung";
+	$('<form id="formular" method="post">'+
+						'<table>'+
+							'<tr><td>Name:</td><td> <input id="name" type="text"></td></tr>'+
+							'<tr><td>Email:</td><td> <input id="email" type="text"></td></tr>'+
+							'<tr><td>Passwort:</td><td> <input id="pass" type="text"></td></tr>'+
+						'</table>'+
+						'<input type="submit" value="Abschicken">'+
+					'</form>'
+				).replaceAll("#wrapper");
 	
-	var data = $.cookies.get( 'sessid' ).substring(2);
+	 $('#formular').submit(function(event) {
+		event.preventDefault(); //Default Methode aus Formular unterbinden
+		adduser();
+	});
+  break;
+case '?login':
+	document.title = "login";
+	$('<form id="formular" method="post">'+
+			'<table>'+
+			'<tr><td>Email:</td><td> <input id="email" type="text"></td></tr>'+
+			'<tr><td>Passwort:</td><td> <input id="pass" type="text"></td></tr>'+
+			'</table>'+
+			'<input type="submit" value="Abschicken">'+
+			'</form>'
+				).replaceAll("#wrapper");
 	
-			$.ajax({
-				type: 'POST',
-				url: '/auth',
-				data: data,
-				contentType: 'application/json'
-			}).done(function(e){
-				$('<li id="logout"><a href="/logout.html">logout</a></li>').replaceAll("#login");
-			}).fail(function(e){
-				alert('Anmeldung fehlgeschlagen: '+JSON.stringify(e.responseText));
+	 $('#formular').submit(function(event) {
+		event.preventDefault(); //Default Methode aus Formular unterbinden
+		login();
+	});	
+  break; 
+  case '?logout':
+	$('document').ready(function(){
+		logout();
+	});
+  break;
+ default:
+		document.title = "Index";
+		 $('<ul>'+
+					'<li><a href="/?adduser">Registrierung</a></li>'+
+					'<li id="login"><a href="/?login">login</a></li>'+
+				'</ul>'
+				).replaceAll("#wrapper");
+			
+			$('document').ready(function(){
+				auth();
 			});
-		}
-});
+	break;
+}
 
 </script>
 </body>

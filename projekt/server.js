@@ -27,7 +27,7 @@ app.use(function(err, req, res, next){
 app.use(express.cookieParser());
 app.post('/auth', function(req, res){
 	var empfangen = JSON.stringify(req.body);
-	console.log("User hinzugefuegt: " + empfangen);
+	console.log("User angemeldet: " + empfangen);
 	res.writeHead(200, {'Content-Type': 'text/plain'});
 	res.end('erfolgreich');
 });
@@ -40,6 +40,7 @@ app.post('/login', function(req, res){
 				var jimData = {id:result[0]._id, name:result[0].name};
 				res.cookie('sessid', jimData);
 				console.log("login successfull");
+				res.writeHead(200, {'Content-Type': 'text/plain'});
 			}else{
 				res.writeHead(401, {'Content-Type': 'text/plain'});
 				console.log("Bad password");
@@ -50,7 +51,7 @@ app.post('/login', function(req, res){
 			console.log("User not found");
 			res.end('Die eingegebene Email Adresse wurde nicht gefunden.');
 		}
-		res.end();
+		res.end('Erfolgreich angemeldet');
 		});
 });
 app.post('/adduser', function(req, res){
