@@ -13,6 +13,7 @@
     "mongoskin": "*",
     "http": "*",
 	"faye": "*",
+	"sendmail": "*",
 	"mail": "*",
 	"formidable": "*",
 	"sendmail": "*",
