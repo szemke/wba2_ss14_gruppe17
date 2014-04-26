@@ -46,10 +46,26 @@ app.get('/uploads/fullsize/', function (req, res){
 });
 
 app.post('/auth', function(req, res){
-	var empfangen = JSON.stringify(req.body);
-	console.log("User angemeldet: " + empfangen);
-	res.writeHead(200, {'Content-Type': 'text/plain'});
-	res.end('erfolgreich');
+	var BSON = mongoDB.BSONPure;
+	var o_id = new BSON.ObjectID(req.body.id);
+	UserCollection.find({_id:o_id}).toArray(function(err, result) {
+		if(err){
+				next(err);
+		}else{
+			if(result[0] != null){
+				console.log("USER: "+result[0].name+" validating...");
+				if(req.body.name == result[0].name){
+					console.log("Validate: OK");
+					res.writeHead(200, {'Content-Type': 'text/plain'});
+					res.end();
+				}else{
+					console.log("Validate: ERROR");
+					res.writeHead(401, {'Content-Type': 'text/plain'});
+					res.end('Ungültiges Cookie');
+				}
+			}
+		}
+	});
 });
 app.post('/login', function(req, res){
 		//In Datenbank speichern

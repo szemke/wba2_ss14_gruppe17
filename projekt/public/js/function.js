@@ -48,9 +48,10 @@ function auth(){
 			data: data,
 			contentType: 'application/json'
 		}).done(function(e){
-			$('<li id="logout"><a href="/?logout">logout</a></li>').replaceAll("#login");
+			$('#left p').html('<a href="/?logout">Abmelden</a>');
 		}).fail(function(e){
 			alert('Anmeldung fehlgeschlagen: '+JSON.stringify(e.responseText));
+
 		});
 	}
 }

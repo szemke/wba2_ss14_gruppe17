@@ -5,15 +5,33 @@
 <script src="/js/jquery.cookies.2.2.0.min.js"></script>
 <script src="/js/function.js"></script>
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 	<div id="wrapper">
+		<div id="left">
+			<img src="/gfx/logo.png"><br />
+			<div id="left_content">
+				<p><a href="/?login">Anmelden</a> | <a href="/?adduser">Registrieren</a></p>
+				<ul>
+				<li><a href="/?home">Startseite</a></li>
+				<li><a href="/?addshop">Restaurant hinzufügen</a></li>
+				<li><a href="/?addcard">Speisekarte hinzufügen</a></li>
+				<li><a href="/?favorites">Favoriten</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="right">
+			<h1>Willkommen</h1>
+			<p></p>
+			<div id="right_content"></div>
+		</div>
 	</div>
 <script>
 var n = location.search;
 switch(n)
 {
-  case '?upload':
+  case '?addcard':
 	document.title = "Upload";
 	$('<h1>Upload</h1>'+ 
 		'<form action="/uploads" enctype="multipart/form-data" method="post">'+
@@ -21,10 +39,12 @@ switch(n)
 			'<textarea name="kommentar" cols="50" rows="10" id="kommentar" placeholder="Bitte Geben Sie einen Kommentar ein..."></textarea><br/>'+
 			'<input type="submit" value=" Absenden ">'+
 		'</form>'
-	).replaceAll("#wrapper");
+	).replaceAll("#right");
   break;
 case '?adduser':
 	document.title = "Registrierung";
+	$('#right h1').text('Registrieren');
+	$('#right p').text('Registriere dich auf DiningMeetup.com um zahlreiche Vorteile nutzen zu können. Dazu gehören: das Hinzufügen von Restaurants und Speisekarten um sie mit anderen Usern teilen zu können und ihr könnt zudem noch mit anderen kommunizieren um gemeinsam bestellen zu können.');
 	$('<form id="formular" method="post">'+
 			'<table>'+
 				'<tr><td>Name:</td><td> <input id="name" type="text"></td></tr>'+
@@ -33,7 +53,7 @@ case '?adduser':
 			'</table>'+
 			'<input type="submit" value="Abschicken">'+
 		'</form>'
-	).replaceAll("#wrapper");
+	).replaceAll("#right_content");
 	
 	 $('#formular').submit(function(event) {
 		event.preventDefault(); //Default Methode aus Formular unterbinden
@@ -42,6 +62,8 @@ case '?adduser':
   break;
 case '?login':
 	document.title = "login";
+	$('#right h1').text('Anmelden');
+	$('#right p').text('Bitte bitte melde dich an, um deine Vorteile als Mitglied nutzen zu können.');
 	$('<form id="formular" method="post">'+
 			'<table>'+
 				'<tr><td>Email:</td><td> <input id="email" type="text"></td></tr>'+
@@ -49,7 +71,7 @@ case '?login':
 			'</table>'+
 			'<input type="submit" value="Abschicken">'+
 		'</form>'
-	).replaceAll("#wrapper");
+	).replaceAll("#right_content");
 	
 	 $('#formular').submit(function(event) {
 		event.preventDefault(); //Default Methode aus Formular unterbinden
@@ -61,22 +83,10 @@ case '?login':
 		logout();
 	});
   break;
- default:
-	document.title = "Index";
-	 $('<ul>'+
-			'<li><a href="/?adduser">Registrierung</a></li>'+
-			'<li><a href="/?upload">Upload</a></li>'+
-			'<li><a href="/uploads/fullsize">Upload anzeigen</a></li>'+
-			'<li id="login"><a href="/?login">login</a></li>'+
-		'</ul>'
-	).replaceAll("#wrapper");
-			
-	$('document').ready(function(){
-		auth();
-	});
-	break;
 }
-
+$('document').ready(function(){
+ auth();
+});
 </script>
 </body>
 </html>
