@@ -4,6 +4,7 @@ var faye = require('faye');
 var http = require('http');
 var mail = require('sendmail')();
 var util = require('util');
+var formidable = require('formidable');
 var db = mongoDB.db('mongodb://localhost:27017/user?auto_reconnect=true', {
 	safe: true
 });
@@ -25,6 +26,25 @@ app.use(function(err, req, res, next){
 	res.end(error.messages);
 });	
 app.use(express.cookieParser());
+
+app.post('/uploads', function (req, res) {
+    var form = new formidable.IncomingForm();
+    form.uploadDir = 'public/uploads/fullsize/';
+    form.keepExtensions = true;
+
+    form.parse(req, function(err, fields, files) {
+        res.writeHead(200, {'content-type': 'text/plain'});
+        res.write('received upload bitches ;D:\n\n');
+        res.end(util.inspect({fields: fields, files: files}));
+    });
+    return;
+});
+
+app.get('/uploads/fullsize/', function (req, res){
+	res.writeHead(200, {'Content-Type': 'image/jpg' });
+	res.end();
+});
+
 app.post('/auth', function(req, res){
 	var empfangen = JSON.stringify(req.body);
 	console.log("User angemeldet: " + empfangen);

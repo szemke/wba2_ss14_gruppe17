@@ -1,15 +1,20 @@
 {
-  "name": "WBA2_Projekt",
+  "name": "Dining_Meetup",
   "description": "Coming soon",
   "version": "0.0.1",
   "main": "server.js",
-  "author":"Gruppe17",
+  "author": [
+    {"name": "Simon Zemke", "email": "simon.zemke@gmail.com"},
+    {"name": "Sami Fadli", "email": ""},
+	{"name": "Rebecca Uebachs", "email": ""}
+  ],
   "dependencies": {
     "express": "3.x",
     "mongoskin": "*",
     "http": "*",
 	"faye": "*",
 	"mail": "*",
+	"formidable": "*",
 	"util": "*"
   }
 }
