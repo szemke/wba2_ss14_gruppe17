@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>Index</title>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="/js/jquery.cookies.2.2.0.min.js"></script>
+<script src="/js/function.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
+</head>
+<body>
+	<div id="wrapper">
+	</div>
+<script>
+var n = location.search;
+switch(n)
+{
+  case '?upload':
+	document.title = "Upload";
+	$('<h1>Upload</h1>'+ 
+		'<form action="/uploads" enctype="multipart/form-data" method="post">'+
+		'<input name="image" type="file" size="40" /><br />'+      
+			'<textarea name="kommentar" cols="50" rows="10" id="kommentar" placeholder="Bitte Geben Sie einen Kommentar ein..."></textarea><br/>'+
+			'<input type="submit" value=" Absenden ">'+
+		'</form>'
+	).replaceAll("#wrapper");
+  break;
+case '?adduser':
+	document.title = "Registrierung";
+	$('<form id="formular" method="post">'+
+			'<table>'+
+				'<tr><td>Name:</td><td> <input id="name" type="text"></td></tr>'+
+				'<tr><td>Email:</td><td> <input id="email" type="text"></td></tr>'+
+				'<tr><td>Passwort:</td><td> <input id="pass" type="text"></td></tr>'+
+			'</table>'+
+			'<input type="submit" value="Abschicken">'+
+		'</form>'
+	).replaceAll("#wrapper");
+	
+	 $('#formular').submit(function(event) {
+		event.preventDefault(); //Default Methode aus Formular unterbinden
+		adduser();
+	});
+  break;
+case '?login':
+	document.title = "login";
+	$('<form id="formular" method="post">'+
+			'<table>'+
+				'<tr><td>Email:</td><td> <input id="email" type="text"></td></tr>'+
+				'<tr><td>Passwort:</td><td> <input id="pass" type="text"></td></tr>'+
+			'</table>'+
+			'<input type="submit" value="Abschicken">'+
+		'</form>'
+	).replaceAll("#wrapper");
+	
+	 $('#formular').submit(function(event) {
+		event.preventDefault(); //Default Methode aus Formular unterbinden
+		login();
+	});	
+  break; 
+  case '?logout':
+	$('document').ready(function(){
+		logout();
+	});
+  break;
+ default:
+	document.title = "Index";
+	 $('<ul>'+
+			'<li><a href="/?adduser">Registrierung</a></li>'+
+			'<li><a href="/?upload">Upload</a></li>'+
+			'<li><a href="/uploads/fullsize">Upload anzeigen</a></li>'+
+			'<li id="login"><a href="/?login">login</a></li>'+
+		'</ul>'
+	).replaceAll("#wrapper");
+			
+	$('document').ready(function(){
+		auth();
+	});
+	break;
+}
+
+</script>
+</body>
+</html>
