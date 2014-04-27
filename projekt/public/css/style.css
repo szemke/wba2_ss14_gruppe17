@@ -1,3 +1,7 @@
+body {
+font-family:Century Gothic, Tahoma; 
+font-size:11pt;
+}
 #wrapper {
 margin-left:auto;
 margin-right:auto;
@@ -6,11 +10,77 @@ background-color:#ffffff;
 }
 #left {
 float:left;
-width:400px;
+width:280px;
 height:100%;
+}
+#left_content p{
+margin-bottom: 0px;
+margin-top:0px;
 }
 #right {
 float:left;
-width:600px;
+width:680px;
 height:100%;
+padding-left:40px;
+}
+#left_content {
+text-align:right;
+position:relative;
+}
+#menutext {
+width:0.8%;
+height:0.8%;
+}
+#menutext img {
+width: 100px;
+position:relative;
+z-index: 1;
+}
+#rectangle {
+width:280px;
+height:160px;
+background:black;
+position:relative;
+-moz-border-radius:10px;
+-webkit-border-radius:10px;
+border-radius:10px;
+padding-top:10px;
+position:absolute;
+}
+ul {
+margin-top:15px;
+padding-top:40px;
+text-align:left;
+}
+ul a:link {
+color: white;
+text-decoration: none; 
+}
+ul a:active {
+color: white;
+text-decoration: none; 
+}
+ul a:visited {
+color: white;
+text-decoration: none; 
+}
+ul a:hover {
+color: silver;
+text-decoration: none; 
+}
+a {
+color: black;
+text-decoration: none; 
+}
+a:active {
+color: grey;
+text-decoration: none; 
+}
+a:visited {
+color: black;
+text-decoration: none; 
+}
+a:hover {
+color: grey;
+text-decoration: none; 
 }

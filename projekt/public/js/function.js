@@ -5,7 +5,7 @@ function adduser(){
 	/*
 	* Pruefe das Formularfelder nicht leer sind
 	*/
-	if($('#name').val() != "" && $('#email').val() != "" && $('#pass').val() != ""){
+	if($('#name').val() != "" && $('#vorname').val() != "" && $('#email').val() != "" && $('#pass').val() != "" && $('#ort').val() != "" && $('#plz').val() != "" && $('#strasse').val() != "" && $('#nr').val() != ""){
 			
 	/*
 	* Email Adresse als Salt dem Passwort hinzufügen und mit SHA512 Hashwert erstellen.
@@ -13,7 +13,7 @@ function adduser(){
 	*/
 	var salt = $('#pass').val() + $('#email').val();
 	var hash = CryptoJS.SHA512(salt);
-	var data = {name: $('#name').val(), email: $('#email').val(), pass: hash.toString()};
+	var data = {name: $('#name').val(), vorname: $('#vorname').val(),email: $('#email').val(), pass: hash.toString(), ort: $('#ort').val(), plz: $('#plz').val(), strasse: $('#strasse').val(), nr: $('#nr').val()};
 			
 	/*
 	* AJAX Post absenden vom Typ Jason Objekt
