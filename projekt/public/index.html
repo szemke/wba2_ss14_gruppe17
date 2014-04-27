@@ -10,15 +10,20 @@
 <body>
 	<div id="wrapper">
 		<div id="left">
-			<img src="/gfx/logo.png"><br />
+			<img src="/gfx/logo.png"><br/>
 			<div id="left_content">
-				<p><a href="/?login">Anmelden</a> | <a href="/?adduser">Registrieren</a></p>
+				<a href="/?login">Anmelden</a> | <a href="/?adduser">Registrieren</a>
+                <div id="menutext">
+				<img src="/gfx/menu.png">
+                    </div>
+                <div id="rectangle">
 				<ul>
 				<li><a href="/?home">Startseite</a></li>
 				<li><a href="/?addshop">Restaurant hinzufügen</a></li>
 				<li><a href="/?addcard">Speisekarte hinzufügen</a></li>
 				<li><a href="/?favorites">Favoriten</a></li>
 				</ul>
+                </div>
 			</div>
 		</div>
 		<div id="right">
@@ -63,7 +68,7 @@ case '?adduser':
 case '?login':
 	document.title = "login";
 	$('#right h1').text('Anmelden');
-	$('#right p').text('Bitte bitte melde dich an, um deine Vorteile als Mitglied nutzen zu können.');
+	$('#right p').text('Bitte melde dich an, um deine Vorteile als Mitglied nutzen zu können.');
 	$('<form id="formular" method="post">'+
 			'<table>'+
 				'<tr><td>Email:</td><td> <input id="email" type="text"></td></tr>'+
