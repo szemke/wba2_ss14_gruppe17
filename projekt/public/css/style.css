@@ -13,6 +13,10 @@ float:left;
 width:280px;
 height:100%;
 }
+#left_content p{
+margin-bottom: 0px;
+margin-top:0px;
+}
 #right {
 float:left;
 width:680px;

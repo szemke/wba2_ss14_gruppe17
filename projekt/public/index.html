@@ -12,7 +12,7 @@
 		<div id="left">
 			<img src="/gfx/logo.png"><br/>
 			<div id="left_content">
-				<a href="/?login">Anmelden</a> | <a href="/?adduser">Registrieren</a>
+				<p><a href="/?login">Anmelden</a> | <a href="/?adduser">Registrieren</a></p>
                 <div id="menutext">
 				<img src="/gfx/menu.png">
                     </div>
@@ -74,8 +74,8 @@ case '?login':
 	$('#right p').text('Bitte melde dich an, um deine Vorteile als Mitglied nutzen zu können.');
 	$('<form id="formular" method="post">'+
 			'<table>'+
-				'<tr><td>Email:</td><td> <input id="email" type="text"></td></tr>'+
-				'<tr><td>Passwort:</td><td> <input id="pass" type="text"></td></tr>'+
+				'<tr><td>Email:</td><td> <input id="email" type="email"></td></tr>'+
+				'<tr><td>Passwort:</td><td> <input id="pass" type="password"></td></tr>'+
 			'</table>'+
 			'<input type="submit" value="Abschicken">'+
 		'</form>'
