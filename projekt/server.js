@@ -4,6 +4,7 @@ var faye = require('faye');
 var http = require('http');
 var mail = require('sendmail')();
 var util = require('util');
+var im = require('imagemagick')
 var formidable = require('formidable');
 var db = mongoDB.db('mongodb://localhost:27017/diningDB?auto_reconnect=true', {
 	safe: true
@@ -29,22 +30,31 @@ app.use(function(err, req, res, next){
 app.use(express.cookieParser());
 
 app.post('/uploads', function (req, res) {
-    var form = new formidable.IncomingForm();
+    var form = new formidable.IncomingForm(), files = [], fields = [];
+    
     form.uploadDir = 'public/uploads/fullsize/';
+    thumbnailDir = 'public/uploads/thumbs/';
+    
     form.keepExtensions = true;
-
+    
     form.parse(req, function(err, fields, files) {
-        res.writeHead(200, {'content-type': 'text/plain'});
-        res.write('received upload bitches ;D:\n\n');
-        res.end(util.inspect({fields: fields, files: files}));
-    });
-    return;
+
+    	pathdir = files.image.path.replace('public\\','\\');
+    	im.resize({
+      		srcPath: files.image.path,
+      		dstPath: 'public/uploads/thumbs/'+files.image.name,
+      		width: 250,
+    	}, function(err, stdout, stderr){
+      		if (err) throw err;
+      		console.log('Thumbnail created');
+    	});
+
+		res.writeHead(200, {'content-type': 'text/html'});
+		res.write('received upload:\n\n');
+		res.end( "<img src='" + pathdir + "' alt='' />" );
+  	});
 });
 
-app.get('/uploads/fullsize/', function (req, res){
-	res.writeHead(200, {'Content-Type': 'image/jpg' });
-	res.end();
-});
 
 app.post('/auth', function(req, res){
 	var BSON = mongoDB.BSONPure;
