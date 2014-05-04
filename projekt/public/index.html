@@ -10,7 +10,7 @@
 <body>
 	<div id="wrapper">
 		<div id="left">
-			<img src="/gfx/logo.png"><br/>
+			<a href="/"><img src="/gfx/logo.png"></a><br/>
 			<div id="left_content">
 				<p><a href="/?login">Anmelden</a> | <a href="/?adduser">Registrieren</a></p>
                 <div id="menutext">
@@ -91,6 +91,41 @@ case '?login':
 		logout();
 	});
   break;
+    case '?addservice':
+	document.title = "Lieferdienst hinzufügen";
+	$('#right p').html('<a href="/">Zurück</a>');
+	$('<form id="addservice" method="post">'+
+			'<table>'+
+				'<tr><td>Restaurant:</td><td> <input id="restaurant" type="text"></td></tr>'+
+				'<tr><td>Tel.:</td><td> <input id="phone" type="text"></td></tr>'+
+				'<tr><td>Ruhetag:</td><td> <input id="ruhe" type="text"></td></tr>'+
+				'<tr><td>Wohnort/PLZ:</td><td> <input id="ort" type="text">&nbsp;<input id="plz" type="text" size="5"></td></tr>'+
+				'<tr><td>Strasse/Nr.:</td><td> <input id="strasse" type="text">&nbsp;<input id="nr" type="text" size="5"></td></tr>'+
+				'<tr><td>Mindestbestellwert:</td><td> <input id="min" type="text"></td></tr>'+
+				'<tr><td>Anfahrtskosten:</td><td> <input id="anfahrt" type="text"></td></tr>'+
+				'<tr><td>Öffnungszeiten:</td><td> <textarea id="date" rows="5"></textarea></td></tr>'+
+			'</table>'+
+			'<input type="submit" value="Abschicken">'+
+		'</form>'
+	).replaceAll("#right_content");
+	
+	$('#addservice').submit(function(event) {
+		event.preventDefault(); //Default Methode aus Formular unterbinden
+		addservice();
+	});
+  break;
+  default:
+	document.title = "Lieferdienste";
+	$('#right p').append('<a href="/?addservice">Lieferdienst hinzufügen</a>');
+	$('<table id="lieferservice"><tr><th colspan="2">Lieferservice</th><th>Lieferzeit</th></tr>'+
+			'<table>'
+	).replaceAll("#right_content");
+	
+	$('document').ready(function(){
+		getservices();
+	});
+	
+	
 }
 $('document').ready(function(){
  auth();

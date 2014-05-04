@@ -5,12 +5,13 @@ var http = require('http');
 var mail = require('sendmail')();
 var util = require('util');
 var formidable = require('formidable');
-var db = mongoDB.db('mongodb://localhost:27017/user?auto_reconnect=true', {
+var db = mongoDB.db('mongodb://localhost:27017/diningDB?auto_reconnect=true', {
 	safe: true
 });
 db.bind("user");
+db.bind("services");
 var UserCollection = db.user
-
+var ServiceCollection = db.services
 /*
 * Webserver starten
 * Verzeichnis fuer den direkten Zugriff von Aussen freigeben
@@ -116,7 +117,28 @@ app.post('/adduser', function(req, res){
 		}
 	});
 });
-
+app.post('/addservice', function(req, res){
+		//In Datenbank speichern	
+		ServiceCollection.insert(req.body, function(err, user){
+			if(err){
+				next(err);
+		}else{
+			var empfangen = JSON.stringify(req.body);
+			console.log("User hinzugefuegt: " + empfangen);
+			res.end();
+		}
+	});
+});
+app.get('/getservice', function(req, res){
+	ServiceCollection.findItems(function(err, result){
+		if(err){
+			next(err);
+		}else{
+			res.writeHead(200, {'Content-Type': 'application/json'});
+			res.end(JSON.stringify(result));
+		}
+	});
+});
 /*
 * Server an Port 3000 binden
 */
