@@ -92,7 +92,7 @@ var request = $.ajax({
 		
 	function addTableRow(service){
 	var date = service.date;
-        $('#lieferservice').append('<tr><td><img src="gfx/pizza.png" width="100px" height="100px"></td><td id="service">'+service.restaurant+'<br />'+service.strasse+' '+service.nr+'<br />'+service.plz+' '+service.ort+'<br />Tel.:'+service.phone+'<p>Mindestbestellwert: '+service.min+' <br />Anfahrtskosten: '+service.anfahrt+'</p></td>'+
+        $('#lieferservice').append('<tr><td><a href="'+cards.path+'"><img src="'+cards.path+'" width="100px" height="100px"></a></td><td id="service">'+service.restaurant+'<br />'+service.strasse+' '+service.nr+'<br />'+service.plz+' '+service.ort+'<br />Tel.:'+service.phone+'<p>Mindestbestellwert: '+service.min+' <br />Anfahrtskosten: '+service.anfahrt+'</p></td>'+
 			'<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'</td></tr>');
     }
 }

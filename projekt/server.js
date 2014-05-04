@@ -4,15 +4,17 @@ var faye = require('faye');
 var http = require('http');
 var mail = require('sendmail')();
 var util = require('util');
-var im = require('imagemagick')
+var im = require('imagemagick');
 var formidable = require('formidable');
 var db = mongoDB.db('mongodb://localhost:27017/diningDB?auto_reconnect=true', {
 	safe: true
 });
 db.bind("user");
 db.bind("services");
+db.bind("cards")
 var UserCollection = db.user
 var ServiceCollection = db.services
+var CardsCollection = db.cards
 /*
 * Webserver starten
 * Verzeichnis fuer den direkten Zugriff von Aussen freigeben
@@ -48,6 +50,15 @@ app.post('/uploads', function (req, res) {
       		if (err) throw err;
       		console.log('Thumbnail created');
     	});
+
+    	CardsCollection.insert({name: files.image.name, path: pathdir, thumb: 'public/uploads/thumbs/'+files.image.name }, function(err, cards){
+			if(err){
+				console.log(err);
+			}else{
+				var empfangen = JSON.stringify(req.body);
+				console.log("Karte hinzugefuegt: " + empfangen);
+			}
+	});
 
 		res.writeHead(200, {'content-type': 'text/html'});
 		res.write('received upload:\n\n');
