@@ -5,7 +5,7 @@ var http = require('http');
 var mail = require('sendmail')();
 var util = require('util');
 var fs = require('fs');
-var gm = require('gm');
+var gm = require('gm').subClass({ imageMagick: true });
 var formidable = require('formidable');
 var db = mongoDB.db('mongodb://localhost:27017/user?auto_reconnect=true', {
 	safe: true
@@ -38,29 +38,26 @@ app.post('/uploads', function (req, res) {
     form.keepExtensions = true;
     
     form.parse(req, function(err, fields, files) {
-    	console.log(util.inspect(files));
+    	var plainfile = util.inspect(files);
 
-    	var imageName = files.file.name;
-    	pathdir = form.uploadDir + imageName;
-    	
+    	pathdir = files.image.path.replace('public\\','\\');
     	gm(pathdir)
 			.resize(353, 257)
 			.autoOrient()
 			.write(thumbnailDir, function (err) {
-  		if (!err) console.log(' Resize Completed ');
+  		if (err){
+			console.log(err);
+		}else{
+			console.log(' Resize Completed ');
 
-  		res.writeHead(200, {'content-type': 'text/plain'});
-        res.write('received upload:\n\n');
-        res.end( "<img src='public/uploads/fullsize/" + files.name + "' alt='' />" );
+			res.writeHead(200, {'content-type': 'text/html'});
+			res.write('received upload:\n\n');
+			res.end( "<img src='" + pathdir + "' alt='' />" );
+		}
   	});
 });
     return;
 });
-
-///app.get('/uploads/fullsize/', function (req, res){
-///	res.writeHead(200, {'Content-Type': 'image/jpg' });
-///	res.end( "<img src='/show?i=" + files.upload.name + "' alt='' />" );
-///});
 
 app.post('/auth', function(req, res){
 	var BSON = mongoDB.BSONPure;
