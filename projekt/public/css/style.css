@@ -84,3 +84,16 @@ a:hover {
 color: grey;
 text-decoration: none; 
 }
+#lieferservice th{
+font-size:11pt;
+}
+#lieferservice{
+text-align:left;
+font-size:9pt;
+}
+#service{
+width:250px;
+}
+#date {
+width:250px;
+}
