@@ -4,7 +4,7 @@ var faye = require('faye');
 var http = require('http');
 var mail = require('sendmail')();
 var util = require('util');
-var im = require('imagemagick')
+var im = require('imagemagick');
 var formidable = require('formidable');
 var db = mongoDB.db('mongodb://localhost:27017/diningDB?auto_reconnect=true', {
 	safe: true
@@ -148,6 +148,20 @@ app.get('/getservice', function(req, res){
 			res.end(JSON.stringify(result));
 		}
 	});
+});
+app.get('/getOneService/:id', function(req, res){
+	console.log(req.param("id"));
+	var BSON = mongoDB.BSONPure;
+	var o_id = new BSON.ObjectID(req.param("id"));
+	ServiceCollection.findOne({_id: o_id}, function(err, result) {
+		if(err){
+			next(err);
+		}else{
+			console.log(result.phone);
+			res.writeHead(200, {'Content-Type': 'application/json'});
+			res.end(JSON.stringify(result));
+		}
+});
 });
 /*
 * Server an Port 3000 binden
