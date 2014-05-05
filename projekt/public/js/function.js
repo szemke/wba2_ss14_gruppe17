@@ -125,16 +125,15 @@ var request = $.ajax({
         request.fail(function(err){
 			alert("something is wrong");
         });
-<<<<<<< HEAD
+
 
 }
 
 function showCard(service) {
 	$('#right_content').append('<a href="/?uploads">Karte hinzufügen</a>');
 }
-=======
-}
->>>>>>> e2e413d8a1d7015a531ceb2a96795671cb59b0d5
+
+
 /*
  * Authentifizierung
  */
