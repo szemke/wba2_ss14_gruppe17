@@ -27,7 +27,7 @@ function adduser(){
 		contentType: 'application/json'
 		}).done(function(){
 			alert(data.name+' wurde hinzugefuegt.');
-			window.location = "/";
+			window.location = "/?home";
 		}).fail(function(e){
 			alert(data.name+' konnte nicht hinzugefuegt werden. ('+JSON.stringify(e)+')');
 		});
@@ -92,6 +92,7 @@ var request = $.ajax({
 }
 function addTableRow(service){
 	var date = service.date;
+	if(auth() != null){
         $('#lieferservice').append('<tr><td>'+
 									'<a href="/?'+service._id+'">'+
 										'<img src="gfx/pizza.png" width="100px" height="100px">'+
@@ -102,9 +103,22 @@ function addTableRow(service){
 										 'Mindestbestellwert: '+service.min+' <br />'+
 											 'Anfahrtskosten: '+service.anfahrt+'</p></td>'+
 									  '<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'<p>'+
-									  '<a href="/"><img src="/gfx/meetup.png" width="18px" height="18px">MeetUp</a>&nbsp;&nbsp;'+
-									  '<a href="/"><img src="/gfx/Stern.png" width="18px" height="18px">Favoriten</a></p></td></tr>'
+									  '<a href="/meetup/?'+service._id+'"><img src="/gfx/meetup.png" width="18px" height="18px">MeetUp</a>&nbsp;&nbsp;'+
+									  '<a href="/favorit/?'+service._id+'"><img src="/gfx/Stern.png" width="18px" height="18px">Favoriten</a></p></td></tr>'
 									  );
+					}else{
+					  $('#lieferservice').append('<tr><td>'+
+									'<a href="/?'+service._id+'">'+
+										'<img src="gfx/pizza.png" width="100px" height="100px">'+
+									'</a></td><td id="service">'+service.restaurant+'<br />'+
+																service.strasse+' '+service.nr+'<br />'+
+																service.plz+' '+service.ort+'<br />'+
+														'Tel.:'+service.phone+'<p>'+
+										 'Mindestbestellwert: '+service.min+' <br />'+
+											 'Anfahrtskosten: '+service.anfahrt+'</p></td>'+
+									  '<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'</td></tr>'
+									  );
+					}
 }
 /*
  *
@@ -137,22 +151,23 @@ function showCard(service) {
 /*
  * Authentifizierung
  */
-function auth(){
+ 
+ function auth(){
 	if($.cookies.get( 'sessid' ) != null){
 	var data = $.cookies.get( 'sessid' ).substring(2);
-	
-		$.ajax({
-			type: 'POST',
-			url: '/auth',
-			data: data,
-			contentType: 'application/json'
-		}).done(function(e){
-			$('#left p').html('<a href="/?logout">Abmelden</a>');
-		}).fail(function(e){
-			alert('Anmeldung fehlgeschlagen: '+JSON.stringify(e.responseText));
-		});
+		
+		var result = $.ajax({
+						type: 'POST',
+						url: "/auth",
+						data: data,
+						contentType: 'application/json',
+						async: false
+						}).responseText;
+		if(result != null) $('#left p').html('<a href="/?logout">Abmelden</a>');
+		return JSON.stringify(result);
 	}
 }
+
 /*
  * LOGIN
  */
@@ -181,7 +196,7 @@ function login(){
 			data: JSON.stringify(data),
 			contentType: 'application/json'
 		}).done(function(){
-			window.location = "/";
+			window.location = "/?home";
 		}).fail(function(e){
 			alert('Anmeldung fehlgeschlagen: '+JSON.stringify(e.responseText));
 		});
@@ -194,5 +209,5 @@ function login(){
  */
 function logout(){
 	$.cookies.del( 'sessid' );
-	window.location = "/";
+	window.location = "/?home";
 }

@@ -86,7 +86,7 @@ app.post('/auth', function(req, res){
 				if(req.body.name == result[0].name){
 					console.log("Validate: OK");
 					res.writeHead(200, {'Content-Type': 'text/plain'});
-					res.end();
+					res.end(JSON.stringify(result));
 				}else{
 					console.log("Validate: ERROR");
 					res.writeHead(401, {'Content-Type': 'text/plain'});
