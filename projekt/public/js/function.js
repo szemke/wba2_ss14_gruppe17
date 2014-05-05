@@ -150,7 +150,6 @@ function auth(){
 			$('#left p').html('<a href="/?logout">Abmelden</a>');
 		}).fail(function(e){
 			alert('Anmeldung fehlgeschlagen: '+JSON.stringify(e.responseText));
-
 		});
 	}
 }
