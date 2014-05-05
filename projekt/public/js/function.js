@@ -1,3 +1,36 @@
+function favoriten(s){
+ var a = auth();
+ console.log(a[0]._id);
+ 
+ var data = {userid: a[0]._id, kartenid: s};
+	$.ajax({
+		type: 'POST',
+		url: '/favoriten',
+		data: JSON.stringify(data),
+		contentType: 'application/json'
+		}).done(function(){
+			window.location = "/?home";
+		}).fail(function(e){
+			alert(data.name+' konnte nicht hinzugefuegt werden. ('+JSON.stringify(e)+')');
+		});
+}
+function meetup(s){
+ var a = auth();
+ console.log(a[0]._id);
+ 
+ var data = {userid: a[0]._id, kartenid: s, text:1234};
+	$.ajax({
+		type: 'POST',
+		url: '/meetup',
+		data: JSON.stringify(data),
+		contentType: 'application/json'
+		}).done(function(){
+			console.log("erfolgreich gepusht");
+		}).fail(function(e){
+			alert(data.name+' konnte nicht hinzugefuegt werden. ('+JSON.stringify(e)+')');
+		});
+}
+
 /*
  * REGISTRATION
  */
@@ -62,7 +95,7 @@ function addservice(){
 		contentType: 'application/json'
 		}).done(function(){
 			alert(data.name+' wurde hinzugefuegt.');
-			window.location = "/";
+			window.location = "/?home";
 		}).fail(function(e){
 			alert(data.name+' konnte nicht hinzugefuegt werden. ('+JSON.stringify(e)+')');
 		});
@@ -94,7 +127,7 @@ function addTableRow(service){
 	var date = service.date;
 	if(auth() != null){
         $('#lieferservice').append('<tr><td>'+
-									'<a href="/?'+service._id+'">'+
+									'<a href="/?service&s='+service._id+'">'+
 										'<img src="gfx/pizza.png" width="100px" height="100px">'+
 									'</a></td><td id="service">'+service.restaurant+'<br />'+
 																service.strasse+' '+service.nr+'<br />'+
@@ -103,8 +136,8 @@ function addTableRow(service){
 										 'Mindestbestellwert: '+service.min+' <br />'+
 											 'Anfahrtskosten: '+service.anfahrt+'</p></td>'+
 									  '<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'<p>'+
-									  '<a href="/meetup/?'+service._id+'"><img src="/gfx/meetup.png" width="18px" height="18px">MeetUp</a>&nbsp;&nbsp;'+
-									  '<a href="/favorit/?'+service._id+'"><img src="/gfx/Stern.png" width="18px" height="18px">Favoriten</a></p></td></tr>'
+									  '<a href="/?meetup&s='+service._id+'"><img src="/gfx/meetup.png" width="18px" height="18px">MeetUp</a>&nbsp;&nbsp;'+
+									  '<a href="/?favoriten&s='+service._id+'"><img src="/gfx/Stern0.png" width="18px" height="18px">Favoriten</a></p></td></tr>'
 									  );
 					}else{
 					  $('#lieferservice').append('<tr><td>'+
@@ -151,7 +184,6 @@ function showCard(service) {
 /*
  * Authentifizierung
  */
- 
  function auth(){
 	if($.cookies.get( 'sessid' ) != null){
 	var data = $.cookies.get( 'sessid' ).substring(2);
@@ -163,9 +195,51 @@ function showCard(service) {
 						contentType: 'application/json',
 						async: false
 						}).responseText;
-		if(result != null) $('#left p').html('<a href="/?logout">Abmelden</a>');
-		return JSON.stringify(result);
+		if(result != null){
+			$('#left p').html('<a href="/?logout">Abmelden</a>');
+			subscribe(eval(result));
+		} 
+		
+		return eval(result);
 	}
+}
+ function authsubscribe(){
+	if($.cookies.get( 'sessid' ) != null){
+	var data = $.cookies.get( 'sessid' ).substring(2);
+		
+		var result = $.ajax({
+						type: 'POST',
+						url: "/auth",
+						data: data,
+						contentType: 'application/json',
+						async: false
+						}).responseText;
+		if(result != null){
+			subscribe(eval(result));
+		} 
+		
+		return eval(result);
+	}
+}
+function subscribe(id){
+	var request = $.ajax({
+            type: 'GET',
+            url: 'http://localhost:3000/favoriten/'+id[0]._id,
+            contentType: 'application/json'
+        });
+        
+        request.done(function(service){
+				var s = eval(service);
+                var client = new Faye.Client('/faye');
+				var subscription = client.subscribe('/'+s, function(message){
+					console.log("subscribe erreicht");
+				});
+				
+        });
+        
+        request.fail(function(err){
+			alert("something is wrong");
+        });
 }
 
 /*
@@ -197,12 +271,23 @@ function login(){
 			contentType: 'application/json'
 		}).done(function(){
 			window.location = "/?home";
+			
 		}).fail(function(e){
 			alert('Anmeldung fehlgeschlagen: '+JSON.stringify(e.responseText));
 		});
 	}else{
 		alert(unescape("Bitte alle Felder ausf%FCllen")); //unescape: Umlaut uebersetzen
 	}
+}
+function GetUrlValue(VarSearch){
+    var SearchString = window.location.search.substring(1);
+    var VariableArray = SearchString.split('&');
+    for(var i = 0; i < VariableArray.length; i++){
+        var KeyValuePair = VariableArray[i].split('=');
+        if(KeyValuePair[0] == VarSearch){
+            return KeyValuePair[1];
+        }
+    }
 }
 /*
  * LOGOUT

@@ -11,10 +11,10 @@ var db = mongoDB.db('mongodb://localhost:27017/diningDB?auto_reconnect=true', {
 });
 db.bind("user");
 db.bind("services");
-
+db.bind("favoriten");
 var UserCollection = db.user
 var ServiceCollection = db.services
-
+var FavoritenCollection = db.favoriten
 /*
 * Webserver starten
 * Verzeichnis fuer den direkten Zugriff von Aussen freigeben
@@ -23,6 +23,13 @@ var ServiceCollection = db.services
 var app = express();
 var server = http.createServer(app);
 
+var bayeux = new faye.NodeAdapter({
+    mount: '/faye',
+    timeout: 45
+});
+bayeux.attach(server);
+var pubClient = bayeux.getClient();
+
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 app.use(function(err, req, res, next){
@@ -30,7 +37,43 @@ app.use(function(err, req, res, next){
 	res.end(error.messages);
 });	
 app.use(express.cookieParser());
-
+app.post('/meetup', function (req, res) {
+	var publication = pubClient.publish('/'+req.body.kartenid, req.body.text);
+		
+        //Namen des hinzugefuegten Planeten auf der Konsole ausgeben
+        publication.then(function(){
+			//res.writeHead(200,"OK");
+            console.log('gepusht: '+req.body.text);
+        },
+        function (error){
+            next(error)
+        });
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end();
+});
+app.post('/favoriten', function (req, res) {
+	FavoritenCollection.insert(req.body, function(err, user){
+			if(err){
+				next(err);
+		}else{
+			var empfangen = JSON.stringify(req.body);
+			console.log("User hinzugefuegt: " + empfangen);
+			res.end();
+		}
+	});
+});
+app.get('/favoriten/:id', function (req, res) {
+	FavoritenCollection.find({userid:req.param("id")}).toArray(function(err, result) {
+		if(err){
+				next(err);
+		}else{
+			if(result[0] != null){
+					res.writeHead(200, {'Content-Type': 'text/plain'});
+					res.end(JSON.stringify(result[0].kartenid));
+			}
+		}
+	});
+});
 app.post('/uploads', function (req, res) {
     var form = new formidable.IncomingForm(), files = [], fields = [];
     
@@ -179,7 +222,7 @@ app.get('/getOneService/:id', function(req, res){
 			res.writeHead(200, {'Content-Type': 'application/json'});
 			res.end(JSON.stringify(result));
 		}
-});
+	});
 });
 /*
 * Server an Port 3000 binden

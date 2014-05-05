@@ -5,6 +5,7 @@
 <script src="/js/jquery.cookies.2.2.0.min.js"></script>
 <script src="/js/function.js"></script>
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
+<script type="text/javascript" src="/faye/client.js"></script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -34,7 +35,8 @@
 	</div>
 <script>
 var n = location.search;
-switch(n)
+var n = n.split("&",1); 
+switch(n[0])
 {
   case '?addcard':
 	document.title = "Upload";
@@ -126,7 +128,7 @@ case '?login':
 	});
 	
   break;
-  default:
+  case '?service':
 	document.title = "Lieferkarten";
 	$('#right p').append('<a href="/?home">Zurück</a> | ');
 	$('#right p').append('<a href="/?addcard">Speisekarte Hinzufügen</a>');
@@ -135,13 +137,27 @@ case '?login':
 	).replaceAll("#right_content");
 	
 	$('document').ready(function(){
-		var s = n.substring(1);
+		var s = GetUrlValue("s");
 		getOneService(s);
 	});
+  break;
+  case '?favoriten':
+	document.title = "Lieferkarten";
+	$('document').ready(function(){
+		var s = GetUrlValue("s");
+		favoriten(s);
+	});
+  break;
+  case '?meetup':
+	document.title = "Lieferkarten";
+	$('document').ready(function(){
+		var s = GetUrlValue("s");
+		meetup(s);
+	});
+  break;
 }
 $('document').ready(function(){
-	var a = auth();
-	console.log(a);
+	auth();
 });
 </script>
 </body>
