@@ -58,8 +58,10 @@ app.post('/uploads', function (req, res) {
 			if(err){
 				console.log(err);
 			}else{
-				ServiceCollection.update({"_id" :o_id },{$set : {"imgpath": pathdir}});
-				ServiceCollection.update({"_id" :o_id },{$set : {"imgname": files.image.name}});
+				ServiceCollection.update({"_id" :o_id },{$set : {"imgpath": pathdir}}, function(err, service){
+			if(err) console.log(err)})
+				ServiceCollection.update({"_id" :o_id },{$set : {"imgname": files.image.name}}, function(err, service){
+			if(err) console.log(err)})
 				var empfangen = JSON.stringify(req.body);
 				console.log("Karte hinzugefuegt: " + empfangen);
 			}
