@@ -1,4 +1,3 @@
-Test
 var express = require('express');
 var mongoDB = require('mongoskin');
 var faye = require('faye');
@@ -32,11 +31,11 @@ app.use(function(err, req, res, next){
 });	
 app.use(express.cookieParser());
 
-app.post('/uploads', function (req, res) {
+app.post('/menu', function (req, res) {
     var form = new formidable.IncomingForm(), files = [], fields = [];
     
-    form.uploadDir = 'public/uploads/fullsize/';
-    thumbnailDir = 'public/uploads/thumbs/';
+    form.uploadDir = 'public/menu/fullsize/';
+    thumbnailDir = 'public/menu/thumbs/';
     
     form.keepExtensions = true;
     
@@ -45,7 +44,7 @@ app.post('/uploads', function (req, res) {
     	pathdir = files.image.path.replace('public\\','\\');
     	im.resize({
       		srcPath: files.image.path,
-      		dstPath: 'public/uploads/thumbs/'+files.image.name,
+      		dstPath: 'public/menu/thumbs/'+files.image.name,
       		width: 250,
     	}, function(err, stdout, stderr){
       		if (err) throw err;
@@ -55,7 +54,7 @@ app.post('/uploads', function (req, res) {
     	var BSON = mongoDB.BSONPure;
 		var o_id = new BSON.ObjectID(req.body.id);
 
-    	ServiceCollection.update({"_id" :o_id },{$set : {"thumb": '/uploads/thumbs/'+files.image.name}}, function(err, service){
+    	ServiceCollection.update({"_id" :o_id },{$set : {"thumb": '/menu/thumbs/'+files.image.name}}, function(err, service){
 			if(err){
 				console.log(err);
 			}else{
@@ -120,7 +119,7 @@ app.post('/login', function(req, res){
 		res.end('Erfolgreich angemeldet');
 		});
 });
-app.post('/adduser', function(req, res){
+app.post('/user', function(req, res){
 		//In Datenbank speichern	
 		UserCollection.insert(req.body, function(err, user){
 			if(err){
@@ -146,7 +145,7 @@ app.post('/adduser', function(req, res){
 		}
 	});
 });
-app.post('/addservice', function(req, res){
+app.post('/service', function(req, res){
 		//In Datenbank speichern	
 		ServiceCollection.insert(req.body, function(err, user){
 			if(err){
@@ -158,7 +157,7 @@ app.post('/addservice', function(req, res){
 		}
 	});
 });
-app.get('/getservice', function(req, res){
+app.get('/service', function(req, res){
 	ServiceCollection.findItems(function(err, result){
 		if(err){
 			next(err);
@@ -168,7 +167,7 @@ app.get('/getservice', function(req, res){
 		}
 	});
 });
-app.get('/getOneService/:id', function(req, res){
+app.get('/oneService/:id', function(req, res){
 	console.log(req.param("id"));
 	var BSON = mongoDB.BSONPure;
 	var o_id = new BSON.ObjectID(req.param("id"));
