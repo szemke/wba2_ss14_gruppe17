@@ -101,7 +101,10 @@ function addTableRow(service){
 														'Tel.:'+service.phone+'<p>'+
 										 'Mindestbestellwert: '+service.min+' <br />'+
 											 'Anfahrtskosten: '+service.anfahrt+'</p></td>'+
-									  '<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'</td></tr>');
+									  '<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'<p>'+
+									  '<a href="/"><img src="/gfx/meetup.png" width="18px" height="18px">MeetUp</a>&nbsp;&nbsp;'+
+									  '<a href="/"><img src="/gfx/Stern.png" width="18px" height="18px">Favoriten</a></p></td></tr>'
+									  );
 }
 /*
  *
@@ -116,17 +119,22 @@ var request = $.ajax({
         request.done(function(service){
                 addTableRow(service);
 				showCard(service);
+				
         });
         
         request.fail(function(err){
 			alert("something is wrong");
         });
+<<<<<<< HEAD
 
 }
 
 function showCard(service) {
 	$('#right_content').append('<a href="/?uploads">Karte hinzufügen</a>');
 }
+=======
+}
+>>>>>>> e2e413d8a1d7015a531ceb2a96795671cb59b0d5
 /*
  * Authentifizierung
  */
