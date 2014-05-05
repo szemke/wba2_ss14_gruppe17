@@ -92,11 +92,6 @@ var request = $.ajax({
 }
 function addTableRow(service){
 	var date = service.date;
-<<<<<<< HEAD
-        $('#lieferservice').append('<tr><td><a href="'+cards.path+'"><img src="'+cards.path+'" width="100px" height="100px"></a></td><td id="service">'+service.restaurant+'<br />'+service.strasse+' '+service.nr+'<br />'+service.plz+' '+service.ort+'<br />Tel.:'+service.phone+'<p>Mindestbestellwert: '+service.min+' <br />Anfahrtskosten: '+service.anfahrt+'</p></td>'+
-			'<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'</td></tr>');
-    }
-=======
         $('#lieferservice').append('<tr><td>'+
 									'<a href="/?'+service._id+'">'+
 										'<img src="gfx/pizza.png" width="100px" height="100px">'+
@@ -126,9 +121,12 @@ var request = $.ajax({
         request.fail(function(err){
 			alert("something is wrong");
         });
->>>>>>> fe39ecfa81f6450e3195b974367babc7d62df2b3
+
 }
 
+function showCard(service) {
+	$('#right_content').append('<a href="/?uploads">Karte hinzufügen</a>');
+}
 /*
  * Authentifizierung
  */

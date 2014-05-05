@@ -11,10 +11,10 @@ var db = mongoDB.db('mongodb://localhost:27017/diningDB?auto_reconnect=true', {
 });
 db.bind("user");
 db.bind("services");
-db.bind("cards")
+
 var UserCollection = db.user
 var ServiceCollection = db.services
-var CardsCollection = db.cards
+
 /*
 * Webserver starten
 * Verzeichnis fuer den direkten Zugriff von Aussen freigeben
@@ -51,10 +51,15 @@ app.post('/uploads', function (req, res) {
       		console.log('Thumbnail created');
     	});
 
-    	CardsCollection.insert({name: files.image.name, path: pathdir, thumb: 'public/uploads/thumbs/'+files.image.name }, function(err, cards){
+    	var BSON = mongoDB.BSONPure;
+		var o_id = new BSON.ObjectID(req.body.id);
+
+    	ServiceCollection.update({"_id" :o_id },{$set : {"thumb": '/uploads/thumbs/'+files.image.name}}, function(err, service){
 			if(err){
 				console.log(err);
 			}else{
+				ServiceCollection.update({"_id" :o_id },{$set : {"imgpath": pathdir}});
+				ServiceCollection.update({"_id" :o_id },{$set : {"imgname": files.image.name}});
 				var empfangen = JSON.stringify(req.body);
 				console.log("Karte hinzugefuegt: " + empfangen);
 			}
