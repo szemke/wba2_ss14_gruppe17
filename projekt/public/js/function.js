@@ -92,11 +92,6 @@ var request = $.ajax({
 }
 function addTableRow(service){
 	var date = service.date;
-<<<<<<< HEAD
-        $('#lieferservice').append('<tr><td><a href="'+cards.path+'"><img src="'+cards.path+'" width="100px" height="100px"></a></td><td id="service">'+service.restaurant+'<br />'+service.strasse+' '+service.nr+'<br />'+service.plz+' '+service.ort+'<br />Tel.:'+service.phone+'<p>Mindestbestellwert: '+service.min+' <br />Anfahrtskosten: '+service.anfahrt+'</p></td>'+
-			'<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'</td></tr>');
-    }
-=======
         $('#lieferservice').append('<tr><td>'+
 									'<a href="/?'+service._id+'">'+
 										'<img src="gfx/pizza.png" width="100px" height="100px">'+
@@ -106,7 +101,10 @@ function addTableRow(service){
 														'Tel.:'+service.phone+'<p>'+
 										 'Mindestbestellwert: '+service.min+' <br />'+
 											 'Anfahrtskosten: '+service.anfahrt+'</p></td>'+
-									  '<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'</td></tr>');
+									  '<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'<p>'+
+									  '<a href="/"><img src="/gfx/meetup.png" width="18px" height="18px">MeetUp</a>&nbsp;&nbsp;'+
+									  '<a href="/"><img src="/gfx/Stern.png" width="18px" height="18px">Favoriten</a></p></td></tr>'
+									  );
 }
 /*
  *
@@ -121,14 +119,13 @@ var request = $.ajax({
         request.done(function(service){
                 addTableRow(service);
 				showCard(service);
+				
         });
         
         request.fail(function(err){
 			alert("something is wrong");
         });
->>>>>>> fe39ecfa81f6450e3195b974367babc7d62df2b3
 }
-
 /*
  * Authentifizierung
  */
