@@ -1,7 +1,7 @@
 /*
  * REGISTRATION
  */
-function adduser(){
+function user(){
 	/*
 	* Pruefe das Formularfelder nicht leer sind
 	*/
@@ -22,7 +22,7 @@ function adduser(){
 	*/
 	$.ajax({
 		type: 'POST',
-		url: '/adduser',
+		url: '/user',
 		data: JSON.stringify(data),
 		contentType: 'application/json'
 		}).done(function(){
@@ -38,7 +38,7 @@ function adduser(){
 /*
  * REGISTRATION
  */
-function addservice(){
+function service(){
 	/*
 	* Pruefe das Formularfelder nicht leer sind
 	*/
@@ -57,7 +57,7 @@ function addservice(){
 	*/
 	$.ajax({
 		type: 'POST',
-		url: '/addservice',
+		url: '/service',
 		data: JSON.stringify(data),
 		contentType: 'application/json'
 		}).done(function(){
@@ -73,10 +73,10 @@ function addservice(){
 /*
  *
  */
-function getservices(){
+function services(){
 var request = $.ajax({
             type: 'GET',
-            url: 'http://localhost:3000/getservice',
+            url: '/service',
             contentType: 'application/json'
         });
         
@@ -109,10 +109,10 @@ function addTableRow(service){
 /*
  *
  */
-function getOneService(service){
+function oneService(service){
 var request = $.ajax({
             type: 'GET',
-            url: 'http://localhost:3000/getOneService/'+service,
+            url: 'oneService/'+service,
             contentType: 'application/json'
         });
         
