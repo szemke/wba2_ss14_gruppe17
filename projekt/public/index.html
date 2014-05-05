@@ -19,8 +19,8 @@
                 <div id="rectangle">
 				<ul>
 				<li><a href="/?home">Startseite</a></li>
-				<li><a href="/?addshop">Restaurant hinzufügen</a></li>
-				<li><a href="/?addcard">Speisekarte hinzufügen</a></li>
+				<li><a href="/?service">Restaurant hinzufügen</a></li>
+				<li><a href="/?menu">Speisekarte hinzufügen</a></li>
 				<li><a href="/?favorites">Favoriten</a></li>
 				</ul>
                 </div>
@@ -36,7 +36,7 @@
 var n = location.search;
 switch(n)
 {
-  case '?addcard':
+  case '?menu':
 	document.title = "Upload";
 	$('<h1>Upload</h1>'+ 
 		'<form action="/uploads" enctype="multipart/form-data" method="post">'+
@@ -46,7 +46,7 @@ switch(n)
 		'</form>'
 	).replaceAll("#right");
   break;
-case '?adduser':
+case '?user':
 	document.title = "Registrierung";
 	$('#right h1').text('Registrieren');
 	$('#right p').text('Registriere dich auf DiningMeetup.com um zahlreiche Vorteile nutzen zu können. Dazu gehören: das Hinzufügen von Restaurants und Speisekarten um sie mit anderen Usern teilen zu können und ihr könnt zudem noch mit anderen kommunizieren um gemeinsam bestellen zu können.');
@@ -65,7 +65,7 @@ case '?adduser':
 	
 	 $('#formular').submit(function(event) {
 		event.preventDefault(); //Default Methode aus Formular unterbinden
-		adduser();
+		user();
 	});
   break;
 case '?login':
@@ -91,10 +91,10 @@ case '?login':
 		logout();
 	});
   break;
-    case '?addservice':
+    case '?service':
 	document.title = "Lieferdienst hinzufügen";
 	$('#right p').html('<a href="/?home">Zurück</a>');
-	$('<form id="addservice" method="post">'+
+	$('<form id="service" method="post">'+
 			'<table>'+
 				'<tr><td>Restaurant:</td><td> <input id="restaurant" type="text"></td></tr>'+
 				'<tr><td>Tel.:</td><td> <input id="phone" type="text"></td></tr>'+
@@ -109,9 +109,9 @@ case '?login':
 		'</form>'
 	).replaceAll("#right_content");
 	
-	$('#addservice').submit(function(event) {
+	$('#service').submit(function(event) {
 		event.preventDefault(); //Default Methode aus Formular unterbinden
-		addservice();
+		service();
 	});
   break;
   case '?home':
@@ -122,7 +122,7 @@ case '?login':
 	).replaceAll("#right_content");
 	
 	$('document').ready(function(){
-			getservices();
+			services();
 	});
 	
   break;
@@ -136,7 +136,7 @@ case '?login':
 	
 	$('document').ready(function(){
 		var s = n.substring(1);
-		getOneService(s);
+		oneService(s);
 	});
 	
 	
