@@ -77,7 +77,7 @@ app.get('/favoriten/:id', function (req, res) {
 		}
 	});
 });
-app.post('/uploads', function (req, res) {
+app.post('/menu', function (req, res) {
 	var form = new formidable.IncomingForm(), files = [], fields = [];
     
     form.uploadDir = 'public/uploads/fullsize/';
@@ -162,7 +162,7 @@ app.post('/login', function(req, res){
 		res.end('Erfolgreich angemeldet');
 		});
 });
-app.post('/adduser', function(req, res){
+app.post('/user', function(req, res){
 		//In Datenbank speichern	
 		UserCollection.insert(req.body, function(err, user){
 			if(err){
@@ -188,7 +188,7 @@ app.post('/adduser', function(req, res){
 		}
 	});
 });
-app.post('/addservice', function(req, res){
+app.post('/service', function(req, res){
 		//In Datenbank speichern	
 		ServiceCollection.insert(req.body, function(err, user){
 			if(err){
@@ -201,7 +201,7 @@ app.post('/addservice', function(req, res){
 	});
 });
 
-app.get('/getservice', function(req, res){
+app.get('/service', function(req, res){
 	ServiceCollection.findItems(function(err, result){
 		if(err){
 			next(err);
@@ -211,7 +211,7 @@ app.get('/getservice', function(req, res){
 		}
 	});
 });
-app.get('/getOneService/:id', function(req, res){
+app.get('/OneService/:id', function(req, res){
 	console.log(req.param("id"));
 	var BSON = mongoDB.BSONPure;
 	var o_id = new BSON.ObjectID(req.param("id"));
@@ -224,7 +224,7 @@ app.get('/getOneService/:id', function(req, res){
 		}
 	});
 });
-app.get('/uploads', function(req, res){
+app.get('/menu', function(req, res){
 	console.log(req.param("id"));
 	var BSON = mongoDB.BSONPure;
 	var o_id = new BSON.ObjectID(req.param("id"));
