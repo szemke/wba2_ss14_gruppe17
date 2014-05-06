@@ -13,16 +13,16 @@
 		<div id="left">
 			<a href="/"><img src="/gfx/logo.png"></a><br/>
 			<div id="left_content">
-				<p><a href="/?login">Anmelden</a> | <a href="/?adduser">Registrieren</a></p>
+				<p><a href="/?login">Anmelden</a> | <a href="/?user">Registrieren</a></p>
                 <div id="menutext">
 				<img src="/gfx/menu.png">
                     </div>
                 <div id="rectangle">
 				<ul>
 				<li><a href="/?home">Startseite</a></li>
-				<li><a href="/?addshop">Restaurant hinzufügen</a></li>
-				<li><a href="/?addcard">Speisekarte hinzufügen</a></li>
-				<li><a href="/?favorites">Favoriten</a></li>
+				<li><a href="/?service">Restaurant hinzufügen</a></li>
+				<li><a href="/?menu">Speisekarte hinzufügen</a></li>
+				<li><a href="/?favoriten">Favoriten</a></li>
 				</ul>
                 </div>
 			</div>
@@ -38,7 +38,7 @@ var n = location.search;
 var n = n.split("&",1); 
 switch(n[0])
 {
-  case '?addcard':
+  case '?menu':
 	document.title = "Upload";
 	$('<h1>Upload</h1>'+ 
 		'<form action="/uploads" enctype="multipart/form-data" method="post">'+
@@ -48,7 +48,7 @@ switch(n[0])
 		'</form>'
 	).replaceAll("#right");
   break;
-case '?adduser':
+case '?user':
 	document.title = "Registrierung";
 	$('#right h1').text('Registrieren');
 	$('#right p').text('Registriere dich auf DiningMeetup.com um zahlreiche Vorteile nutzen zu können. Dazu gehören: das Hinzufügen von Restaurants und Speisekarten um sie mit anderen Usern teilen zu können und ihr könnt zudem noch mit anderen kommunizieren um gemeinsam bestellen zu können.');
@@ -67,7 +67,7 @@ case '?adduser':
 	
 	 $('#formular').submit(function(event) {
 		event.preventDefault(); //Default Methode aus Formular unterbinden
-		adduser();
+		user();
 	});
   break;
 case '?login':
@@ -93,10 +93,10 @@ case '?login':
 		logout();
 	});
   break;
-    case '?addservice':
+    case '?service':
 	document.title = "Lieferdienst hinzufügen";
 	$('#right p').html('<a href="/?home">Zurück</a>');
-	$('<form id="addservice" method="post">'+
+	$('<form id="service" method="post">'+
 			'<table>'+
 				'<tr><td>Restaurant:</td><td> <input id="restaurant" type="text"></td></tr>'+
 				'<tr><td>Tel.:</td><td> <input id="phone" type="text"></td></tr>'+
@@ -111,34 +111,34 @@ case '?login':
 		'</form>'
 	).replaceAll("#right_content");
 	
-	$('#addservice').submit(function(event) {
+	$('#service').submit(function(event) {
 		event.preventDefault(); //Default Methode aus Formular unterbinden
-		addservice();
+		service();
 	});
   break;
   case '?home':
 	document.title = "Lieferdienste";
-	$('#right p').append('<a href="/?addservice">Lieferdienst hinzufügen</a>');
+	$('#right p').append('<a href="/?service">Lieferdienst hinzufügen</a>');
 	$('<table id="lieferservice"><tr><th colspan="2">Lieferservice</th><th>Lieferzeit</th></tr>'+
 			'</table>'
 	).replaceAll("#right_content");
 	
 	$('document').ready(function(){
-			getservices();
+			services();
 	});
 	
   break;
   case '?service':
 	document.title = "Lieferkarten";
 	$('#right p').append('<a href="/?home">Zurück</a> | ');
-	$('#right p').append('<a href="/?addcard">Speisekarte Hinzufügen</a>');
+	$('#right p').append('<a href="/?menu">Speisekarte Hinzufügen</a>');
 	$('<table id="lieferservice"><tr><th colspan="2">Lieferservice</th><th>Lieferzeit</th></tr>'+
 			'</table>'
 	).replaceAll("#right_content");
 	
 	$('document').ready(function(){
 		var s = GetUrlValue("s");
-		getOneService(s);
+		OneService(s);
 	});
   break;
 }
