@@ -17,14 +17,8 @@ var UserCollection = db.user
 var ServiceCollection = db.services
 var CardsCollection = db.cards
 var FavoritenCollection = db.favoriten
-/*
-* Webserver starten
-* Verzeichnis fuer den direkten Zugriff von Aussen freigeben
-* Request Information parsen
-*/
 var app = express();
 var server = http.createServer(app);
-
 var bayeux = new faye.NodeAdapter({
     mount: '/faye',
     timeout: 45
@@ -39,6 +33,8 @@ app.use(function(err, req, res, next){
 	res.end(error.messages);
 });	
 app.use(express.cookieParser());
+
+
 app.post('/meetup', function (req, res) {
 	var BSON = mongoDB.BSONPure;
 	var o_id = new BSON.ObjectID(req.body.kartenid);

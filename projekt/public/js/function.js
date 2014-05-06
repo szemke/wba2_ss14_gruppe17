@@ -1,3 +1,9 @@
+/*
+ * Favoriten
+ * POST auf /favoriten
+ * data enthält userid und kartenid
+ */
+
 function favoriten(s){
  var a = auth();
  console.log(a[0]._id);
@@ -14,11 +20,19 @@ function favoriten(s){
 			alert(data.name+' konnte nicht hinzugefuegt werden. ('+JSON.stringify(e)+')');
 		});
 }
+
+/*
+ * MeetUp
+ * POST auf /meetup
+ * data enthält userid und kartenid
+ * userid ist hier optional um später gegebenfalls Absender anzugeben.
+ */
+
 function meetup(s){
  var a = auth();
  console.log(a[0]._id);
  
- var data = {userid: a[0]._id, kartenid: s, text:1234};
+ var data = {userid: a[0]._id, kartenid: s};
 	$.ajax({
 		type: 'POST',
 		url: '/meetup',
@@ -32,8 +46,9 @@ function meetup(s){
 }
 
 /*
- * REGISTRATION
+ * Registrierung
  */
+ 
 function adduser(){
 	/*
 	* Pruefe das Formularfelder nicht leer sind
@@ -68,9 +83,11 @@ function adduser(){
 		alert(unescape("Bitte alle Felder ausf%FCllen")); //unescape: Umlaut uebersetzen
 	}
 }
+
 /*
- * REGISTRATION
+ * Addservice
  */
+ 
 function addservice(){
 	/*
 	* Pruefe das Formularfelder nicht leer sind
@@ -103,10 +120,12 @@ function addservice(){
 		alert(unescape("Bitte alle Felder ausf%FCllen")); //unescape: Umlaut uebersetzen
 	}
 }
+
 /*
- *
+ * getservices
  */
-function getservices(){
+
+ function getservices(){
 var request = $.ajax({
             type: 'GET',
             url: 'http://localhost:3000/getservice',
@@ -123,6 +142,11 @@ var request = $.ajax({
 			alert("something is wrong");
         });
 }
+
+/*
+ * addTableRow
+ */
+ 
 function addTableRow(service){
 	var date = service.date;
 	if(auth() != null){
@@ -153,9 +177,11 @@ function addTableRow(service){
 									  );
 					}
 }
+
 /*
- *
+ * getOneService
  */
+ 
 function getOneService(service){
 var request = $.ajax({
             type: 'GET',
@@ -175,6 +201,11 @@ var request = $.ajax({
 
 
 }
+
+/*
+ * uploads
+ */
+ 
 function uploads(service){
 var request = $.ajax({
             type: 'GET',
@@ -183,6 +214,10 @@ var request = $.ajax({
         });
 }
 
+/*
+ * showCard
+ */
+ 
 function showCard(service, cards) {
 	if (service._id == cards._id)
 		$('#right_content').append('</a href="'+cards.imgpath+'"<img src="'+cards.thumb+'" alt=""></a>');
@@ -194,6 +229,7 @@ function showCard(service, cards) {
 /*
  * Authentifizierung
  */
+ 
  function auth(){
 	if($.cookies.get( 'sessid' ) != null){
 	var data = $.cookies.get( 'sessid' ).substring(2);
@@ -211,6 +247,11 @@ function showCard(service, cards) {
 		return eval(result);
 	}
 }
+
+/*
+ * authsubscribe
+ */
+ 
  function authsubscribe(){
 	if($.cookies.get( 'sessid' ) != null){
 	var data = $.cookies.get( 'sessid' ).substring(2);
@@ -229,6 +270,11 @@ function showCard(service, cards) {
 		return eval(result);
 	}
 }
+
+/*
+ * subscribe
+ */
+ 
 function subscribe(id){
 	var request = $.ajax({
             type: 'GET',
@@ -253,6 +299,7 @@ function subscribe(id){
 /*
  * LOGIN
  */
+ 
 function login(){	
 	/*
 	* Pruefe das Formularfelder nicht leer sind
@@ -287,6 +334,12 @@ function login(){
 		alert(unescape("Bitte alle Felder ausf%FCllen")); //unescape: Umlaut uebersetzen
 	}
 }
+
+/*
+ * GetUrlValue
+ * GET Parameter aus URL auslesen
+ */
+ 
 function GetUrlValue(VarSearch){
     var SearchString = window.location.search.substring(1);
     var VariableArray = SearchString.split('&');
@@ -297,9 +350,11 @@ function GetUrlValue(VarSearch){
         }
     }
 }
+
 /*
  * LOGOUT
  */
+ 
 function logout(){
 	$.cookies.del( 'sessid' );
 	window.location = "/?home";
