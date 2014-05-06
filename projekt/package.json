@@ -17,6 +17,7 @@
 	"mail": "*",
 	"formidable": "*",
 	"sendmail": "*",
+    "imagemagick": "*",
 	"util": "*"
   }
 }
