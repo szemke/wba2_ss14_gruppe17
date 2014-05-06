@@ -207,9 +207,7 @@ function showCard(service, cards) {
 						}).responseText;
 		if(result != null){
 			$('#left p').html('<a href="/?logout">Abmelden</a>');
-			subscribe(eval(result));
 		} 
-		
 		return eval(result);
 	}
 }
