@@ -25,7 +25,7 @@ var bayeux = new faye.NodeAdapter({
 });
 bayeux.attach(server);
 var pubClient = bayeux.getClient();
-
+var BSON = mongoDB.BSONPure;
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 app.use(function(err, req, res, next){
@@ -36,7 +36,6 @@ app.use(express.cookieParser());
 
 
 app.post('/meetup', function (req, res) {
-	var BSON = mongoDB.BSONPure;
 	var o_id = new BSON.ObjectID(req.body.kartenid);
 	ServiceCollection.findOne({_id: o_id}, function(err, result) {
 	if(err){
@@ -118,7 +117,6 @@ app.post('/menu', function (req, res) {
 
 
 app.post('/auth', function(req, res){
-	var BSON = mongoDB.BSONPure;
 	var o_id = new BSON.ObjectID(req.body.id);
 	UserCollection.find({_id:o_id}).toArray(function(err, result) {
 		if(err){
@@ -173,7 +171,7 @@ app.post('/user', function(req, res){
 			var name = req.body.name;
 			console.log("User hinzugefuegt: " + empfangen);
 			 mail({
-				   from: 'Registrierung@simon-zemke.de',
+				   from: 'Registrierung@diningmeetup.com',
 				   to: email,
 				   subject: 'Registrierung',
 				   content: 'Hallo '+name
@@ -213,7 +211,6 @@ app.get('/service', function(req, res){
 });
 app.get('/OneService/:id', function(req, res){
 	console.log(req.param("id"));
-	var BSON = mongoDB.BSONPure;
 	var o_id = new BSON.ObjectID(req.param("id"));
 	ServiceCollection.findOne({_id: o_id}, function(err, result) {
 		if(err){
@@ -226,7 +223,6 @@ app.get('/OneService/:id', function(req, res){
 });
 app.get('/menu', function(req, res){
 	console.log(req.param("id"));
-	var BSON = mongoDB.BSONPure;
 	var o_id = new BSON.ObjectID(req.param("id"));
 	ServiceCollection.findOne({_id: o_id}, function(err, result) {
 		if(err){
