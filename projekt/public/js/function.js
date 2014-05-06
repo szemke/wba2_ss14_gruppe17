@@ -49,7 +49,7 @@ function meetup(s){
  * Registrierung
  */
  
-function adduser(){
+function user(){
 	/*
 	* Pruefe das Formularfelder nicht leer sind
 	*/
@@ -70,7 +70,7 @@ function adduser(){
 	*/
 	$.ajax({
 		type: 'POST',
-		url: '/adduser',
+		url: '/user',
 		data: JSON.stringify(data),
 		contentType: 'application/json'
 		}).done(function(){
@@ -85,14 +85,19 @@ function adduser(){
 }
 
 /*
- * Addservice
+ * Service
  */
  
-function addservice(){
+function service(){
 	/*
 	* Pruefe das Formularfelder nicht leer sind
 	*/
 	if($('#restaurant').val() != "" && $('#phone').val() != "" && $('#ruhe').val() != "" && $('#ort').val() != "" && $('#strasse').val() != "" && $('#plz').val() != "" && $('#nr').val() != "" && $('#min').val() != "" && $('#anfahrt').val() != "" && $('#date').val() != ""){
+			
+	/*
+	* Email Adresse als Salt dem Passwort hinzufügen und mit SHA512 Hashwert erstellen.
+	* Anschlißend zu Data Objekt hinzufügen
+	*/
 	var data = {restaurant: $('#restaurant').val(), phone: $('#phone').val(),ruhe: $('#ruhe').val(), ort: $('#ort').val(), strasse: $('#strasse').val(), plz: $('#plz').val(), nr: $('#nr').val(), min: $('#min').val(), anfahrt: $('#anfahrt').val(), date: $('#date').val()};
 			
 	/*
@@ -102,7 +107,7 @@ function addservice(){
 	*/
 	$.ajax({
 		type: 'POST',
-		url: '/addservice?_id=' +_id,
+		url: '/service?_id=' +_id,
 		data: JSON.stringify(data),
 		contentType: 'application/json'
 		}).done(function(){
@@ -120,10 +125,10 @@ function addservice(){
  * getservices
  */
 
- function getservices(){
+ function services(){
 var request = $.ajax({
             type: 'GET',
-            url: 'http://localhost:3000/getservice',
+            url: 'http://localhost:3000/service',
             contentType: 'application/json'
         });
         
@@ -174,13 +179,13 @@ function addTableRow(service){
 }
 
 /*
- * getOneService
+ * OneService
  */
  
-function getOneService(service){
+function OneService(service){
 var request = $.ajax({
             type: 'GET',
-            url: 'http://localhost:3000/getOneService/'+service,
+            url: 'http://localhost:3000/OneService/'+service,
             contentType: 'application/json'
         });
         
@@ -201,10 +206,10 @@ var request = $.ajax({
  * uploads
  */
  
-function uploads(service){
+function menu(service){
 var request = $.ajax({
             type: 'GET',
-            url: 'http://localhost:3000/uploads/'+service,
+            url: 'http://localhost:3000/menu/'+service,
             contentType: 'application/json'
         });
 }
@@ -311,7 +316,7 @@ function login(){
 			
 		/*
 		* AJAX Post absenden vom Typ Jason Objekt
-		* Bei Erfolg: auf Index.html weiterleiten
+		* Bei Erfolg: Formularfelder leeren und auf Index.html weiterleiten
 		* Bei Misserfolg: alert ausgeben
 		*/
 		$.ajax({
