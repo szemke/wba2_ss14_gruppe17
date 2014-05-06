@@ -90,7 +90,7 @@ function addservice(){
 	*/
 	$.ajax({
 		type: 'POST',
-		url: '/addservice',
+		url: '/addservice?_id=' +_id,
 		data: JSON.stringify(data),
 		contentType: 'application/json'
 		}).done(function(){
@@ -141,7 +141,7 @@ function addTableRow(service){
 									  );
 					}else{
 					  $('#lieferservice').append('<tr><td>'+
-									'<a href="/?'+service._id+'">'+
+									'<a href="/?service&s='+service._id+'">'+
 										'<img src="gfx/pizza.png" width="100px" height="100px">'+
 									'</a></td><td id="service">'+service.restaurant+'<br />'+
 																service.strasse+' '+service.nr+'<br />'+

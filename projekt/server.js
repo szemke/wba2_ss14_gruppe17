@@ -11,9 +11,11 @@ var db = mongoDB.db('mongodb://localhost:27017/diningDB?auto_reconnect=true', {
 });
 db.bind("user");
 db.bind("services");
+db.bind("cards");
 db.bind("favoriten");
 var UserCollection = db.user
 var ServiceCollection = db.services
+var CardsCollection = db.cards
 var FavoritenCollection = db.favoriten
 /*
 * Webserver starten
@@ -74,8 +76,8 @@ app.get('/favoriten/:id', function (req, res) {
 		}
 	});
 });
-app.post('/uploads', function (req, res) {
-    var form = new formidable.IncomingForm(), files = [], fields = [];
+app.post('/uploads/:id', function (req, res) {
+	var form = new formidable.IncomingForm(), files = [], fields = [];
     
     form.uploadDir = 'public/uploads/fullsize/';
     thumbnailDir = 'public/uploads/thumbs/';
@@ -93,26 +95,23 @@ app.post('/uploads', function (req, res) {
       		if (err) throw err;
       		console.log('Thumbnail created');
     	});
+	
+		console.log(req.param.id);
+		var BSON = mongoDB.BSONPure;
+		var o_id = new BSON.ObjectID(req.param(req.param.id));
+		console.log(o_id);
 
-    	var BSON = mongoDB.BSONPure;
-		var o_id = new BSON.ObjectID(req.body.id);
-
-    	ServiceCollection.update({"_id" :o_id },{$set : {"thumb": '/uploads/thumbs/'+files.image.name}}, function(err, service){
+    	CardsCollection.insert({_id:o_id, thumb: '/uploads/thumbs/'+files.image.name ,imgpath: pathdir ,imgname: files.image.name}, function(err, service){
 			if(err){
 				console.log(err);
 			}else{
-				ServiceCollection.update({"_id" :o_id },{$set : {"imgpath": pathdir}}, function(err, service){
-			if(err) console.log(err)})
-				ServiceCollection.update({"_id" :o_id },{$set : {"imgname": files.image.name}}, function(err, service){
-			if(err) console.log(err)})
-				var empfangen = JSON.stringify(req.body);
-				console.log("Karte hinzugefuegt: " + empfangen);
+				console.log("Karte hinzugefuegt: " + o_id);
 			}
 	});
 
 		res.writeHead(200, {'content-type': 'text/html'});
 		res.write('received upload:\n\n');
-		res.end( "<img src='" + pathdir + "' alt='' />" );
+		res.end( "<img src='" + pathdir + "' height='400' width='500' alt='' />" );
   	});
 });
 
@@ -194,17 +193,19 @@ app.post('/addservice', function(req, res){
 			if(err){
 				next(err);
 		}else{
-			var empfangen = JSON.stringify(req.body);
-			console.log("User hinzugefuegt: " + empfangen);
+			empfangen = JSON.stringify(req.body);
+			console.log("Service hinzugefuegt: " + empfangen);
 			res.end();
 		}
 	});
 });
+
 app.get('/getservice', function(req, res){
 	ServiceCollection.findItems(function(err, result){
 		if(err){
 			next(err);
 		}else{
+			console.log("drinne");
 			res.writeHead(200, {'Content-Type': 'application/json'});
 			res.end(JSON.stringify(result));
 		}
@@ -218,6 +219,7 @@ app.get('/getOneService/:id', function(req, res){
 		if(err){
 			next(err);
 		}else{
+			console.log("drinne2");
 			console.log(result.phone);
 			res.writeHead(200, {'Content-Type': 'application/json'});
 			res.end(JSON.stringify(result));
