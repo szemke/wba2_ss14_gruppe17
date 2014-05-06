@@ -40,11 +40,14 @@ app.use(function(err, req, res, next){
 });	
 app.use(express.cookieParser());
 app.post('/meetup', function (req, res) {
-	var publication = pubClient.publish('/'+req.body.kartenid, req.body.text);
-		
-        //Namen des hinzugefuegten Planeten auf der Konsole ausgeben
+	var BSON = mongoDB.BSONPure;
+	var o_id = new BSON.ObjectID(req.body.kartenid);
+	ServiceCollection.findOne({_id: o_id}, function(err, result) {
+	if(err){
+		next(err);
+	}else{
+		var publication = pubClient.publish('/'+req.body.kartenid, result);
         publication.then(function(){
-			//res.writeHead(200,"OK");
             console.log('gepusht: '+req.body.text);
         },
         function (error){
@@ -52,6 +55,8 @@ app.post('/meetup', function (req, res) {
         });
 		res.writeHead(200, {'Content-Type': 'text/plain'});
 		res.end();
+		}
+	});
 });
 app.post('/favoriten', function (req, res) {
 	FavoritenCollection.insert(req.body, function(err, user){

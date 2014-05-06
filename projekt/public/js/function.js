@@ -9,7 +9,7 @@ function favoriten(s){
 		data: JSON.stringify(data),
 		contentType: 'application/json'
 		}).done(function(){
-			window.location = "/?home";
+			console.log("erfolgreich favorisiert");
 		}).fail(function(e){
 			alert(data.name+' konnte nicht hinzugefuegt werden. ('+JSON.stringify(e)+')');
 		});
@@ -136,8 +136,8 @@ function addTableRow(service){
 										 'Mindestbestellwert: '+service.min+' <br />'+
 											 'Anfahrtskosten: '+service.anfahrt+'</p></td>'+
 									  '<td id="date">Ruhetag: '+service.ruhe+'<br />'+date+'<p>'+
-									  '<a href="/?meetup&s='+service._id+'"><img src="/gfx/meetup.png" width="18px" height="18px">MeetUp</a>&nbsp;&nbsp;'+
-									  '<a href="/?favoriten&s='+service._id+'"><img src="/gfx/Stern0.png" width="18px" height="18px">Favoriten</a></p></td></tr>'
+									  '<span id="meetup" onClick="meetup(\''+service._id+'\')"><img src="/gfx/meetup.png" width="18px" height="18px">MeetUp</span>&nbsp;&nbsp;'+
+									  '<span id="favoriten" onClick="favoriten(\''+service._id+'\')"><img src="/gfx/Stern.png" width="18px" height="18px">Favoriten</span></p></td></tr>'
 									  );
 					}else{
 					  $('#lieferservice').append('<tr><td>'+
@@ -240,7 +240,8 @@ function subscribe(id){
 				var s = eval(service);
                 var client = new Faye.Client('/faye');
 				var subscription = client.subscribe('/'+s, function(message){
-					console.log("subscribe erreicht");
+					console.log("subscribe erreicht: "+message.restaurant);
+					alert("Hey, Jemand möchte jetzt bei "+message.restaurant+" bestellen!");
 				});
         });
         

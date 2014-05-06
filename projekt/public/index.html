@@ -141,20 +141,6 @@ case '?login':
 		getOneService(s);
 	});
   break;
-  case '?favoriten':
-	document.title = "Lieferkarten";
-	$('document').ready(function(){
-		var s = GetUrlValue("s");
-		favoriten(s);
-	});
-  break;
-  case '?meetup':
-	document.title = "Lieferkarten";
-	$('document').ready(function(){
-		var s = GetUrlValue("s");
-		meetup(s);
-	});
-  break;
 }
 $('document').ready(function(){
 	authsubscribe();
