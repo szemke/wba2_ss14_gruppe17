@@ -41,7 +41,7 @@ switch(n[0])
   case '?menu':
 	document.title = "Upload";
 	$('<h1>Upload</h1>'+ 
-		'<form action="/uploads" enctype="multipart/form-data" method="post">'+
+		'<form action="/menu" enctype="multipart/form-data" method="post">'+
 		'<input name="image" type="file" size="40" /><br />'+      
 			'<textarea name="kommentar" cols="50" rows="10" id="kommentar" placeholder="Bitte Geben Sie einen Kommentar ein..."></textarea><br/>'+
 			'<input type="submit" value=" Absenden ">'+
@@ -128,7 +128,7 @@ case '?login':
 	});
 	
   break;
-  case '?service':
+  case '?servicedetail':
 	document.title = "Lieferkarten";
 	$('#right p').append('<a href="/?home">Zurück</a> | ');
 	$('#right p').append('<a href="/?menu">Speisekarte Hinzufügen</a>');

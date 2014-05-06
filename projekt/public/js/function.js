@@ -151,7 +151,7 @@ function addTableRow(service){
 	var date = service.date;
 	if(auth() != null){
         $('#lieferservice').append('<tr><td>'+
-									'<a href="/?service&s='+service._id+'">'+
+									'<a href="/?servicedetail&s='+service._id+'">'+
 										'<img src="gfx/pizza.png" width="100px" height="100px">'+
 									'</a></td><td id="service">'+service.restaurant+'<br />'+
 																service.strasse+' '+service.nr+'<br />'+
@@ -165,7 +165,7 @@ function addTableRow(service){
 									  );
 					}else{
 					  $('#lieferservice').append('<tr><td>'+
-									'<a href="/?service&s='+service._id+'">'+
+									'<a href="/?servicedetail&s='+service._id+'">'+
 										'<img src="gfx/pizza.png" width="100px" height="100px">'+
 									'</a></td><td id="service">'+service.restaurant+'<br />'+
 																service.strasse+' '+service.nr+'<br />'+
