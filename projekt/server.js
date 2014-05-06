@@ -76,7 +76,7 @@ app.get('/favoriten/:id', function (req, res) {
 		}
 	});
 });
-app.post('/uploads/:id', function (req, res) {
+app.post('/uploads', function (req, res) {
 	var form = new formidable.IncomingForm(), files = [], fields = [];
     
     form.uploadDir = 'public/uploads/fullsize/';
@@ -95,11 +95,11 @@ app.post('/uploads/:id', function (req, res) {
       		if (err) throw err;
       		console.log('Thumbnail created');
     	});
-	
-		console.log(req.param.id);
+
+    	
+    	console.log(req.body.id);
 		var BSON = mongoDB.BSONPure;
-		var o_id = new BSON.ObjectID(req.param(req.param.id));
-		console.log(o_id);
+		var o_id = new BSON.ObjectID(req.body.id);
 
     	CardsCollection.insert({_id:o_id, thumb: '/uploads/thumbs/'+files.image.name ,imgpath: pathdir ,imgname: files.image.name}, function(err, service){
 			if(err){
@@ -205,7 +205,6 @@ app.get('/getservice', function(req, res){
 		if(err){
 			next(err);
 		}else{
-			console.log("drinne");
 			res.writeHead(200, {'Content-Type': 'application/json'});
 			res.end(JSON.stringify(result));
 		}
@@ -219,13 +218,25 @@ app.get('/getOneService/:id', function(req, res){
 		if(err){
 			next(err);
 		}else{
-			console.log("drinne2");
-			console.log(result.phone);
 			res.writeHead(200, {'Content-Type': 'application/json'});
 			res.end(JSON.stringify(result));
 		}
 	});
 });
+app.get('/uploads', function(req, res){
+	console.log(req.param("id"));
+	var BSON = mongoDB.BSONPure;
+	var o_id = new BSON.ObjectID(req.param("id"));
+	ServiceCollection.findOne({_id: o_id}, function(err, result) {
+		if(err){
+			next(err);
+		}else{
+			res.writeHead(200, {'Content-Type': 'application/json'});
+			res.end(JSON.stringify(result));
+		}
+	});
+});
+
 /*
 * Server an Port 3000 binden
 */

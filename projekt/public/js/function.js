@@ -165,7 +165,7 @@ var request = $.ajax({
         
         request.done(function(service){
                 addTableRow(service);
-				showCard(service);
+				showCard(service, cards);
 				
         });
         
@@ -175,9 +175,19 @@ var request = $.ajax({
 
 
 }
+function uploads(service){
+var request = $.ajax({
+            type: 'GET',
+            url: 'http://localhost:3000/uploads/'+service,
+            contentType: 'application/json'
+        });
+}
 
-function showCard(service) {
-	$('#right_content').append('<a href="/?uploads">Karte hinzufügen</a>');
+function showCard(service, cards) {
+	if (service._id == cards._id)
+		$('#right_content').append('</a href="'+cards.imgpath+'"<img src="'+cards.thumb+'" alt=""></a>');
+	else
+		console.log("Keine Karte vorhanden?!")
 }
 
 
@@ -234,7 +244,6 @@ function subscribe(id){
 				var subscription = client.subscribe('/'+s, function(message){
 					console.log("subscribe erreicht");
 				});
-				
         });
         
         request.fail(function(err){
