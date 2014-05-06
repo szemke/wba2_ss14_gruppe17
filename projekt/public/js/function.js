@@ -93,11 +93,6 @@ function addservice(){
 	* Pruefe das Formularfelder nicht leer sind
 	*/
 	if($('#restaurant').val() != "" && $('#phone').val() != "" && $('#ruhe').val() != "" && $('#ort').val() != "" && $('#strasse').val() != "" && $('#plz').val() != "" && $('#nr').val() != "" && $('#min').val() != "" && $('#anfahrt').val() != "" && $('#date').val() != ""){
-			
-	/*
-	* Email Adresse als Salt dem Passwort hinzufügen und mit SHA512 Hashwert erstellen.
-	* Anschlißend zu Data Objekt hinzufügen
-	*/
 	var data = {restaurant: $('#restaurant').val(), phone: $('#phone').val(),ruhe: $('#ruhe').val(), ort: $('#ort').val(), strasse: $('#strasse').val(), plz: $('#plz').val(), nr: $('#nr').val(), min: $('#min').val(), anfahrt: $('#anfahrt').val(), date: $('#date').val()};
 			
 	/*
@@ -316,7 +311,7 @@ function login(){
 			
 		/*
 		* AJAX Post absenden vom Typ Jason Objekt
-		* Bei Erfolg: Formularfelder leeren und auf Index.html weiterleiten
+		* Bei Erfolg: auf Index.html weiterleiten
 		* Bei Misserfolg: alert ausgeben
 		*/
 		$.ajax({
