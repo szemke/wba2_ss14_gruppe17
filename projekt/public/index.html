@@ -40,9 +40,11 @@ switch(n[0])
 {
   case '?menu':
 	document.title = "Upload";
+	var s = GetUrlValue("s");
 	$('<h1>Upload</h1>'+ 
 		'<form action="/menu" enctype="multipart/form-data" method="post">'+
-		'<input name="image" type="file" size="40" /><br />'+      
+		'<input name="image" type="file" size="40" /><br />'+
+		'<input name="valueid" type="hidden" value="'+s+'" /><br />'+      
 			'<textarea name="kommentar" cols="50" rows="10" id="kommentar" placeholder="Bitte Geben Sie einen Kommentar ein..."></textarea><br/>'+
 			'<input type="submit" value=" Absenden ">'+
 		'</form>'

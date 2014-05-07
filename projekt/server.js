@@ -110,7 +110,7 @@ app.post('/menu', function (req, res) {
 	});
 
 		res.writeHead(200, {'content-type': 'text/html'});
-		res.write('received upload:\n\n');
+		res.write('<a href="/?home">received upload:\n\n</a>');
 		res.end( "<img src='" + pathdir + "' height='400' width='500' alt='' />" );
   	});
 });
